@@ -1,0 +1,2594 @@
+[
+  {
+    "scenario_name": "Strain_Shock_Collapse",
+    "collapsed": true,
+    "t_collapse": 90.59999999999913,
+    "baseline_entropy_method": "beta_inverse",
+    "baseline_value": 0.5,
+    "entropy_method": "beta_inverse",
+    "sampling_rate_hz": 10.0,
+    "aggregation": {
+      "mean": "arithmetic",
+      "std": "sample",
+      "nan_policy": "omit"
+    },
+    "collapse_criteria": {
+      "FEcrit_min_abs": 0.05,
+      "strain_ratio": 1.05,
+      "beta_threshold": Infinity
+    },
+    "variable_glossary": {
+      "gLever": {
+        "units": "a.u.",
+        "description": "resource allocation lever"
+      },
+      "betaLever": {
+        "units": "a.u.",
+        "description": "exploration/stochasticity lever"
+      },
+      "FEcrit": {
+        "units": "a.u.",
+        "description": "critical free energy reserve"
+      },
+      "avg_delta_P_tau": {
+        "units": "a.u.",
+        "description": "average accumulated strain"
+      },
+      "ThetaT": {
+        "units": "a.u.",
+        "description": "tolerance threshold"
+      },
+      "rhoE": {
+        "units": "ratio",
+        "description": "entropy relative to baseline"
+      },
+      "EntropyExp": {
+        "units": "a.u.",
+        "description": "expected entropy (1/beta)"
+      },
+      "SpeedIndex": {
+        "units": "a.u./s",
+        "description": "magnitude of change in beta and FEcrit"
+      },
+      "CoupleIndex": {
+        "units": "corr",
+        "description": "rolling correlation between beta and FEcrit rates"
+      },
+      "safety_margin": {
+        "units": "a.u.",
+        "description": "ThetaT minus avg_delta_P_tau"
+      }
+    },
+    "phase_rationale": {
+      "PRE_COLLAPSE": "initial healthy operation before any collapse triggers",
+      "DISINTEGRATION": "immediate decay after collapse criterion met",
+      "FLARING": "high exploration to regain stability",
+      "PRUNING": "selective reduction of over-extended components",
+      "RESTABILIZATION": "return to steady operation once metrics recover"
+    },
+    "thresholds": {
+      "rhoE_cross_high": 1.5,
+      "couple_low": -0.5
+    },
+    "version_info": {
+      "python": "3.12.3",
+      "numpy": "2.2.5",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.0",
+      "scipy": "1.15.2"
+    },
+    "domain_context": "purely computational simulation",
+    "random_seed": null,
+    "phase_windows": {
+      "PRE_COLLAPSE": [
+        0.0,
+        90.49999999999913
+      ],
+      "DISINTEGRATION": [
+        90.59999999999913,
+        92.59999999999901
+      ],
+      "FLARING": [
+        92.69999999999901,
+        162.59999999999505
+      ],
+      "PRUNING": [
+        162.69999999999504,
+        232.59999999999107
+      ],
+      "RESTABILIZATION": [
+        232.69999999999106,
+        312.50000000000256
+      ]
+    },
+    "phase_durations": {
+      "PRE_COLLAPSE": 90.49999999999913,
+      "DISINTEGRATION": 1.9999999999998863,
+      "FLARING": 69.89999999999604,
+      "PRUNING": 69.89999999999603,
+      "RESTABILIZATION": 79.8000000000115
+    },
+    "phase_steps": {
+      "PRE_COLLAPSE": 907,
+      "DISINTEGRATION": 21,
+      "FLARING": 700,
+      "PRUNING": 700,
+      "RESTABILIZATION": 799
+    },
+    "stats": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": {
+          "max": 1.0800000000000978,
+          "min": 0.533333333333322,
+          "mean": 0.7997721425947044,
+          "std": 0.016093820560814587
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 172.48000000000636,
+          "min": 100.0,
+          "mean": 136.24000000000166,
+          "std": 20.957811590591984
+        },
+        "avg_delta_P_tau": {
+          "max": 7.599999999999538,
+          "min": 2.0,
+          "mean": 2.327232635060604,
+          "std": 1.0590757412518501
+        },
+        "ThetaT": {
+          "max": 7.241542291577219,
+          "min": 6.0164442749817395,
+          "mean": 6.665481275564166,
+          "std": 0.352722547983445
+        },
+        "safety_margin": {
+          "max": 5.11965285748877,
+          "min": -0.3584577084223186,
+          "mean": 4.3382486405035605,
+          "std": 0.945926314302562
+        }
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": {
+          "max": 1.5027677062174,
+          "min": 1.2200000000000841,
+          "mean": 1.480168077365399,
+          "std": 0.06698836930926515
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": -0.23541531896373355,
+          "mean": -0.019839240896172654,
+          "std": 0.06324218320744986
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 175.63000000000648,
+          "min": 172.63000000000636,
+          "mean": 174.13000000000642,
+          "std": 0.9307255234493496
+        },
+        "avg_delta_P_tau": {
+          "max": 8.719999999999473,
+          "min": 7.653333333332868,
+          "mean": 8.186666666666172,
+          "std": 0.33092463055973736
+        },
+        "ThetaT": {
+          "max": 7.286239743988179,
+          "min": 7.243682903341826,
+          "mean": 7.264999633620777,
+          "std": 0.01320286695220462
+        },
+        "safety_margin": {
+          "max": -0.40965042999104195,
+          "min": -1.4337602560112943,
+          "mean": -0.9216670330453934,
+          "std": 0.3177217797954199
+        }
+      },
+      "FLARING": {
+        "SpeedIndex": {
+          "max": 1.6139863709960227,
+          "min": 1.505980019835723,
+          "mean": 1.5997257096590745,
+          "std": 0.022660111155086617
+        },
+        "CoupleIndex": {
+          "max": 0.9999999754184346,
+          "min": -0.976870569146898,
+          "mean": 0.8974007388163646,
+          "std": 0.37114746791333875
+        },
+        "rhoE": {
+          "max": 38.67229742215902,
+          "min": 1.009845998485231,
+          "mean": 19.2450960981812,
+          "std": 13.619628440190473
+        },
+        "gLever": {
+          "max": 0.994,
+          "min": 0.7000002164582982,
+          "mean": 0.7209999848479192,
+          "std": 0.05177849430395842
+        },
+        "betaLever": {
+          "max": 1.9805,
+          "min": 0.0517166068042808,
+          "mean": 0.3255429370376804,
+          "std": 0.43805236093487276
+        },
+        "FEcrit": {
+          "max": 287.55023650500516,
+          "min": 175.780127545142,
+          "mean": 231.2882834909394,
+          "std": 32.45624540914531
+        },
+        "avg_delta_P_tau": {
+          "max": 9.999999999999401,
+          "min": 2.0,
+          "mean": 3.961828571428778,
+          "std": 2.6709572937772754
+        },
+        "ThetaT": {
+          "max": 7.250416074946344,
+          "min": 2.2864890874676296,
+          "mean": 3.3232772009535947,
+          "std": 1.2900745799142526
+        },
+        "safety_margin": {
+          "max": 0.8319959056234811,
+          "min": -3.4820496332382476,
+          "mean": -0.6385513704751835,
+          "std": 1.4372483579325837
+        }
+      },
+      "PRUNING": {
+        "SpeedIndex": {
+          "max": 1.6161271914919522,
+          "min": 1.2355974656687911,
+          "mean": 1.5272518190155375,
+          "std": 0.024771979882402487
+        },
+        "CoupleIndex": {
+          "max": 1.0000005255907982,
+          "min": -0.9999198378571209,
+          "mean": 0.877763697003917,
+          "std": 0.444235046925343
+        },
+        "rhoE": {
+          "max": 30.211735594092225,
+          "min": 1.3344675774535373,
+          "mean": 1.9459927688046366,
+          "std": 2.2263746893981877
+        },
+        "gLever": {
+          "max": 1.199999639236326,
+          "min": 0.7100002121291322,
+          "mean": 1.165000040405538,
+          "std": 0.08629745314698155
+        },
+        "betaLever": {
+          "max": 1.498725059934725,
+          "min": 0.06619944073623799,
+          "mean": 1.295351661628694,
+          "std": 0.32534562035495035
+        },
+        "FEcrit": {
+          "max": 394.4669759197518,
+          "min": 287.71147935676953,
+          "mean": 341.39308790033203,
+          "std": 30.78326909378158
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 9.263212760031204,
+          "min": 2.4994397264454946,
+          "mean": 8.260641622263439,
+          "std": 1.2458426033414352
+        },
+        "safety_margin": {
+          "max": 7.2632127600312035,
+          "min": 0.4994397264454946,
+          "mean": 6.26064162226344,
+          "std": 1.2458426033414336
+        }
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": {
+          "max": 1.0957034234063134,
+          "min": 0.8100049516614871,
+          "mean": 0.8118266725462221,
+          "std": 0.011436973083608835
+        },
+        "CoupleIndex": {
+          "max": 1.0000053876392638,
+          "min": -0.9999828795921902,
+          "mean": 0.8718507001284708,
+          "std": 0.4748186440163595
+        },
+        "rhoE": {
+          "max": 1.3317904014717041,
+          "min": 1.1111716441026422,
+          "mean": 1.1363089235535322,
+          "std": 0.04561448941860928
+        },
+        "gLever": {
+          "max": 1.1959996464515994,
+          "min": 1.0000000195282668,
+          "mean": 1.0122653083425466,
+          "std": 0.03263486989780153
+        },
+        "betaLever": {
+          "max": 1.7999019418958948,
+          "min": 1.5017378093353777,
+          "mean": 1.7626827142501182,
+          "std": 0.0648663250048342
+        },
+        "FEcrit": {
+          "max": 459.2871978618722,
+          "min": 394.54853105382995,
+          "mean": 426.95274403378295,
+          "std": 18.714016358534376
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 9.757550271063087,
+          "min": 9.1869757996702,
+          "mean": 9.485818801463665,
+          "std": 0.17615740773777705
+        },
+        "safety_margin": {
+          "max": 7.757550271063087,
+          "min": 7.186975799670201,
+          "mean": 7.485818801463666,
+          "std": 0.17615740773777708
+        }
+      }
+    },
+    "times_of_peaks": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": 90.49999999999913,
+        "CoupleIndex": 0.0,
+        "rhoE": 0.0,
+        "gLever": 0.0,
+        "betaLever": 0.0,
+        "FEcrit": 90.49999999999913,
+        "avg_delta_P_tau": 90.49999999999913,
+        "ThetaT": 90.49999999999913,
+        "safety_margin": 79.99999999999973
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": 92.59999999999901,
+        "CoupleIndex": 90.59999999999913,
+        "rhoE": 90.59999999999913,
+        "gLever": 90.59999999999913,
+        "betaLever": 90.59999999999913,
+        "FEcrit": 92.59999999999901,
+        "avg_delta_P_tau": 92.59999999999901,
+        "ThetaT": 92.59999999999901,
+        "safety_margin": 90.59999999999913
+      },
+      "FLARING": {
+        "SpeedIndex": 162.59999999999505,
+        "CoupleIndex": 144.59999999999607,
+        "rhoE": 162.59999999999505,
+        "gLever": 92.69999999999901,
+        "betaLever": 92.69999999999901,
+        "FEcrit": 162.59999999999505,
+        "avg_delta_P_tau": 94.99999999999888,
+        "ThetaT": 92.69999999999901,
+        "safety_margin": 124.99999999999717
+      },
+      "PRUNING": {
+        "SpeedIndex": 162.89999999999503,
+        "CoupleIndex": 232.39999999999108,
+        "rhoE": 162.69999999999504,
+        "gLever": 232.59999999999107,
+        "betaLever": 232.59999999999107,
+        "FEcrit": 232.59999999999107,
+        "avg_delta_P_tau": 162.69999999999504,
+        "ThetaT": 232.59999999999107,
+        "safety_margin": 232.59999999999107
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": 232.69999999999106,
+        "CoupleIndex": 312.50000000000256,
+        "rhoE": 232.69999999999106,
+        "gLever": 232.69999999999106,
+        "betaLever": 312.50000000000256,
+        "FEcrit": 312.50000000000256,
+        "avg_delta_P_tau": 232.69999999999106,
+        "ThetaT": 312.50000000000256,
+        "safety_margin": 312.50000000000256
+      }
+    },
+    "corr_dot_beta_dot_fcrit": {
+      "PRE_COLLAPSE": NaN,
+      "DISINTEGRATION": -0.09634910243829657,
+      "FLARING": 0.9942012119253559,
+      "PRUNING": 0.8556059445766988,
+      "RESTABILIZATION": 0.2681946795051208
+    },
+    "crossings": {
+      "rhoE>1.5": {
+        "count": 1,
+        "first": 96.79999999999878
+      },
+      "CoupleIndex<-0.5": {
+        "count": 3,
+        "first": 95.69999999999884
+      }
+    },
+    "trajectory_bbox": {
+      "SpeedIndex": {
+        "min": 0.533333333333322,
+        "max": 1.6161271914919522
+      },
+      "CoupleIndex": {
+        "min": -0.9999828795921902,
+        "max": 1.0000053876392638
+      },
+      "rhoE": {
+        "min": 1.0,
+        "max": 38.67229742215902
+      }
+    },
+    "path_length_3d": 85.83463217076779,
+    "final_state": {
+      "gLever": 1.0000000195282668,
+      "betaLever": 1.7999019418958948,
+      "FEcrit": 459.2871978618722,
+      "rhoE": 1.1111716441026422,
+      "SpeedIndex": 0.8100049516614871,
+      "CoupleIndex": 1.0000053876392638
+    },
+    "start_state": {
+      "gLever": 1.0,
+      "betaLever": 2.0,
+      "FEcrit": 100.0,
+      "rhoE": 1.0,
+      "SpeedIndex": 0.533333333333322,
+      "CoupleIndex": 0.0
+    },
+    "trend_overall": {
+      "gLever": "stable",
+      "betaLever": "decrease",
+      "FEcrit": "increase",
+      "rhoE": "increase",
+      "SpeedIndex": "increase",
+      "CoupleIndex": "increase"
+    }
+  },
+  {
+    "scenario_name": "FEcrit_Shock_Collapse_Severe",
+    "collapsed": true,
+    "t_collapse": 79.99999999999973,
+    "baseline_entropy_method": "beta_inverse",
+    "baseline_value": 0.5,
+    "entropy_method": "beta_inverse",
+    "sampling_rate_hz": 10.0,
+    "aggregation": {
+      "mean": "arithmetic",
+      "std": "sample",
+      "nan_policy": "omit"
+    },
+    "collapse_criteria": {
+      "FEcrit_min_abs": 0.5,
+      "strain_ratio": 1.05,
+      "beta_threshold": Infinity
+    },
+    "variable_glossary": {
+      "gLever": {
+        "units": "a.u.",
+        "description": "resource allocation lever"
+      },
+      "betaLever": {
+        "units": "a.u.",
+        "description": "exploration/stochasticity lever"
+      },
+      "FEcrit": {
+        "units": "a.u.",
+        "description": "critical free energy reserve"
+      },
+      "avg_delta_P_tau": {
+        "units": "a.u.",
+        "description": "average accumulated strain"
+      },
+      "ThetaT": {
+        "units": "a.u.",
+        "description": "tolerance threshold"
+      },
+      "rhoE": {
+        "units": "ratio",
+        "description": "entropy relative to baseline"
+      },
+      "EntropyExp": {
+        "units": "a.u.",
+        "description": "expected entropy (1/beta)"
+      },
+      "SpeedIndex": {
+        "units": "a.u./s",
+        "description": "magnitude of change in beta and FEcrit"
+      },
+      "CoupleIndex": {
+        "units": "corr",
+        "description": "rolling correlation between beta and FEcrit rates"
+      },
+      "safety_margin": {
+        "units": "a.u.",
+        "description": "ThetaT minus avg_delta_P_tau"
+      }
+    },
+    "phase_rationale": {
+      "PRE_COLLAPSE": "initial healthy operation before any collapse triggers",
+      "DISINTEGRATION": "immediate decay after collapse criterion met",
+      "FLARING": "high exploration to regain stability",
+      "PRUNING": "selective reduction of over-extended components",
+      "RESTABILIZATION": "return to steady operation once metrics recover"
+    },
+    "thresholds": {
+      "rhoE_cross_high": 1.5,
+      "couple_low": -0.5
+    },
+    "version_info": {
+      "python": "3.12.3",
+      "numpy": "2.2.5",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.0",
+      "scipy": "1.15.2"
+    },
+    "domain_context": "purely computational simulation",
+    "random_seed": null,
+    "phase_windows": {
+      "PRE_COLLAPSE": [
+        0.0,
+        79.89999999999974
+      ],
+      "DISINTEGRATION": [
+        79.99999999999973,
+        81.99999999999962
+      ],
+      "FLARING": [
+        82.09999999999961,
+        164.59999999999494
+      ],
+      "PRUNING": [
+        164.69999999999493,
+        256.99999999998994
+      ],
+      "RESTABILIZATION": [
+        257.09999999998996,
+        301.90000000000015
+      ]
+    },
+    "phase_durations": {
+      "PRE_COLLAPSE": 79.89999999999974,
+      "DISINTEGRATION": 1.9999999999998863,
+      "FLARING": 82.49999999999532,
+      "PRUNING": 92.29999999999501,
+      "RESTABILIZATION": 44.800000000010186
+    },
+    "phase_steps": {
+      "PRE_COLLAPSE": 801,
+      "DISINTEGRATION": 21,
+      "FLARING": 826,
+      "PRUNING": 924,
+      "RESTABILIZATION": 449
+    },
+    "stats": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": {
+          "max": 136.25999999999004,
+          "min": 0.26666666666670835,
+          "mean": 0.7386600083229671,
+          "std": 6.78104204807245
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 100.0,
+          "min": 67.999999999995,
+          "mean": 83.9999999999975,
+          "std": 9.25492301426796
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 6.0164442749817395,
+          "min": 5.277070896554902,
+          "mean": 5.662377990190254,
+          "std": 0.21337821948590022
+        },
+        "safety_margin": {
+          "max": 4.0164442749817395,
+          "min": 3.2770708965549016,
+          "mean": 3.6623779901902536,
+          "std": 0.21337821948590024
+        }
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": {
+          "max": 135.97999999998999,
+          "min": 0.3,
+          "mean": 19.663513458239787,
+          "std": 48.60013138089469
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": -0.06645456693860241,
+          "mean": -0.0055047639268599804,
+          "std": 0.017599909499654908
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 0.6300000000000003,
+          "min": 0.030000000000000006,
+          "mean": 0.3300000000000002,
+          "std": 0.18614510468986298
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 1.074275534848898,
+          "min": 0.3815584932992734,
+          "mean": 0.8223637480407253,
+          "std": 0.19773816593385313
+        },
+        "safety_margin": {
+          "max": -0.9257244651511021,
+          "min": -1.6184415067007265,
+          "mean": -1.1776362519592747,
+          "std": 0.19773816593385313
+        }
+      },
+      "FLARING": {
+        "SpeedIndex": {
+          "max": 0.44966282743898983,
+          "min": 0.3235629571850001,
+          "mean": 0.41951593727059033,
+          "std": 0.018418702488817374
+        },
+        "CoupleIndex": {
+          "max": 0.9999890035619936,
+          "min": -0.9966427183627259,
+          "mean": 0.16003238451666105,
+          "std": 0.9313342229307505
+        },
+        "rhoE": {
+          "max": 39.61663459070921,
+          "min": 1.009845998485231,
+          "mean": 22.29542333832391,
+          "std": 14.454395153857506
+        },
+        "gLever": {
+          "max": 0.984,
+          "min": 0.2007367364830974,
+          "mean": 0.5083553308564427,
+          "std": 0.2162095414344736
+        },
+        "betaLever": {
+          "max": 1.9805,
+          "min": 0.050483843987824115,
+          "mean": 0.2836587160353577,
+          "std": 0.41513965190492846
+        },
+        "FEcrit": {
+          "max": 35.028009792444074,
+          "min": 0.6601778225858905,
+          "mean": 17.735601239478278,
+          "std": 10.110602129986201
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 1.1556230138181987,
+          "min": 0.7144773266557684,
+          "mean": 0.9728435055268918,
+          "std": 0.11848950530695036
+        },
+        "safety_margin": {
+          "max": -0.8443769861818013,
+          "min": -1.2855226733442318,
+          "mean": -1.0271564944731082,
+          "std": 0.11848950530695038
+        }
+      },
+      "PRUNING": {
+        "SpeedIndex": {
+          "max": 0.43386559205227376,
+          "min": 0.0374409202864868,
+          "mean": 0.3255282414528572,
+          "std": 0.024781416731797137
+        },
+        "CoupleIndex": {
+          "max": 0.99999633659144,
+          "min": -0.9999973165677993,
+          "mean": 0.893405911038176,
+          "std": 0.3886862267314221
+        },
+        "rhoE": {
+          "max": 30.77917218237921,
+          "min": 1.3334527401822036,
+          "mean": 1.8005794516666687,
+          "std": 1.9793525490359862
+        },
+        "gLever": {
+          "max": 1.1999999960925753,
+          "min": 0.7099699342515647,
+          "mean": 1.173483221757621,
+          "std": 0.07658880132722447
+        },
+        "betaLever": {
+          "max": 1.4998656793241274,
+          "min": 0.06497900554794588,
+          "mean": 1.3447090890711102,
+          "std": 0.29660258177500715
+        },
+        "FEcrit": {
+          "max": 65.01213487685922,
+          "min": 35.06925892605244,
+          "mean": 50.37096349324159,
+          "std": 8.533687846593008
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.019323617379893,
+          "min": 1.2145050811601033,
+          "mean": 4.379548939142156,
+          "std": 0.6710007958323138
+        },
+        "safety_margin": {
+          "max": 3.019323617379893,
+          "min": -0.7854949188398967,
+          "mean": 2.3795489391421554,
+          "std": 0.6710007958323145
+        }
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": {
+          "max": 0.3898350273469887,
+          "min": 0.1060109282816697,
+          "mean": 0.38698957246564364,
+          "std": 0.014991354344974388
+        },
+        "CoupleIndex": {
+          "max": 0.9999514578128234,
+          "min": -0.9999949775345053,
+          "mean": 0.7712168908712649,
+          "std": 0.6156064836629214
+        },
+        "rhoE": {
+          "max": 1.3307897305723846,
+          "min": 1.1131472065464127,
+          "mean": 1.1553294991640846,
+          "std": 0.05326518887997922
+        },
+        "gLever": {
+          "max": 1.195999996170724,
+          "min": 1.0000229899471609,
+          "mean": 1.0218237712719938,
+          "std": 0.041086053793968264
+        },
+        "betaLever": {
+          "max": 1.796707558746957,
+          "min": 1.5028670225308862,
+          "mean": 1.734549340617238,
+          "std": 0.0748902196827972
+        },
+        "FEcrit": {
+          "max": 64.97368436327248,
+          "min": 47.60021653697632,
+          "mean": 56.31072658255069,
+          "std": 5.03523579106754
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.016095773507529,
+          "min": 4.511987323001919,
+          "mean": 4.748364801346918,
+          "std": 0.12856386754925336
+        },
+        "safety_margin": {
+          "max": 3.016095773507529,
+          "min": 2.511987323001919,
+          "mean": 2.748364801346918,
+          "std": 0.12856386754925334
+        }
+      }
+    },
+    "times_of_peaks": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": 79.79999999999974,
+        "CoupleIndex": 0.0,
+        "rhoE": 0.0,
+        "gLever": 0.0,
+        "betaLever": 0.0,
+        "FEcrit": 0.0,
+        "avg_delta_P_tau": 0.0,
+        "ThetaT": 0.0,
+        "safety_margin": 0.0
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": 79.99999999999973,
+        "CoupleIndex": 79.99999999999973,
+        "rhoE": 79.99999999999973,
+        "gLever": 79.99999999999973,
+        "betaLever": 79.99999999999973,
+        "FEcrit": 81.99999999999962,
+        "avg_delta_P_tau": 79.99999999999973,
+        "ThetaT": 81.99999999999962,
+        "safety_margin": 81.99999999999962
+      },
+      "FLARING": {
+        "SpeedIndex": 116.39999999999766,
+        "CoupleIndex": 116.39999999999766,
+        "rhoE": 164.59999999999494,
+        "gLever": 82.09999999999961,
+        "betaLever": 82.09999999999961,
+        "FEcrit": 164.59999999999494,
+        "avg_delta_P_tau": 82.09999999999961,
+        "ThetaT": 84.59999999999947,
+        "safety_margin": 84.59999999999947
+      },
+      "PRUNING": {
+        "SpeedIndex": 164.89999999999492,
+        "CoupleIndex": 196.9999999999931,
+        "rhoE": 164.69999999999493,
+        "gLever": 256.99999999998994,
+        "betaLever": 256.99999999998994,
+        "FEcrit": 256.99999999998994,
+        "avg_delta_P_tau": 164.69999999999493,
+        "ThetaT": 256.99999999998994,
+        "safety_margin": 256.99999999998994
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": 301.90000000000015,
+        "CoupleIndex": 285.99999999999653,
+        "rhoE": 257.09999999998996,
+        "gLever": 257.09999999998996,
+        "betaLever": 301.90000000000015,
+        "FEcrit": 257.09999999998996,
+        "avg_delta_P_tau": 257.09999999998996,
+        "ThetaT": 257.09999999998996,
+        "safety_margin": 257.09999999998996
+      }
+    },
+    "corr_dot_beta_dot_fcrit": {
+      "PRE_COLLAPSE": NaN,
+      "DISINTEGRATION": -0.12509600191917414,
+      "FLARING": 0.7525479379115992,
+      "PRUNING": 0.8633369179867102,
+      "RESTABILIZATION": 0.2325785314392473
+    },
+    "crossings": {
+      "rhoE>1.5": {
+        "count": 1,
+        "first": 86.19999999999938
+      },
+      "CoupleIndex<-0.5": {
+        "count": 4,
+        "first": 85.19999999999943
+      }
+    },
+    "trajectory_bbox": {
+      "SpeedIndex": {
+        "min": 0.0374409202864868,
+        "max": 136.25999999999004
+      },
+      "CoupleIndex": {
+        "min": -0.9999973165677993,
+        "max": 0.99999633659144
+      },
+      "rhoE": {
+        "min": 1.0,
+        "max": 39.61663459070921
+      }
+    },
+    "path_length_3d": 361.03536814395085,
+    "final_state": {
+      "gLever": 1.0000229899471609,
+      "betaLever": 1.796707558746957,
+      "FEcrit": 47.60021653697632,
+      "rhoE": 1.1131472065464127,
+      "SpeedIndex": 0.3898350273469887,
+      "CoupleIndex": 0.999436009002917
+    },
+    "start_state": {
+      "gLever": 1.0,
+      "betaLever": 2.0,
+      "FEcrit": 100.0,
+      "rhoE": 1.0,
+      "SpeedIndex": 0.26666666666670835,
+      "CoupleIndex": 0.0
+    },
+    "trend_overall": {
+      "gLever": "stable",
+      "betaLever": "decrease",
+      "FEcrit": "decrease",
+      "rhoE": "increase",
+      "SpeedIndex": "increase",
+      "CoupleIndex": "increase"
+    },
+    "final_state_delta_from_baseline": {
+      "gLever": 2.2970418894097122e-05,
+      "betaLever": -0.0031943831489378294,
+      "FEcrit": -411.6869813248959,
+      "rhoE": 0.0019755624437705066,
+      "SpeedIndex": -0.4201699243144984,
+      "CoupleIndex": -0.0005693786363468734
+    }
+  },
+  {
+    "scenario_name": "Sustained_High_Strain_Collapse_Severe",
+    "collapsed": true,
+    "t_collapse": 72.00000000000018,
+    "baseline_entropy_method": "beta_inverse",
+    "baseline_value": 0.5,
+    "entropy_method": "beta_inverse",
+    "sampling_rate_hz": 10.0,
+    "aggregation": {
+      "mean": "arithmetic",
+      "std": "sample",
+      "nan_policy": "omit"
+    },
+    "collapse_criteria": {
+      "FEcrit_min_abs": 0.5,
+      "strain_ratio": 1.05,
+      "beta_threshold": Infinity
+    },
+    "variable_glossary": {
+      "gLever": {
+        "units": "a.u.",
+        "description": "resource allocation lever"
+      },
+      "betaLever": {
+        "units": "a.u.",
+        "description": "exploration/stochasticity lever"
+      },
+      "FEcrit": {
+        "units": "a.u.",
+        "description": "critical free energy reserve"
+      },
+      "avg_delta_P_tau": {
+        "units": "a.u.",
+        "description": "average accumulated strain"
+      },
+      "ThetaT": {
+        "units": "a.u.",
+        "description": "tolerance threshold"
+      },
+      "rhoE": {
+        "units": "ratio",
+        "description": "entropy relative to baseline"
+      },
+      "EntropyExp": {
+        "units": "a.u.",
+        "description": "expected entropy (1/beta)"
+      },
+      "SpeedIndex": {
+        "units": "a.u./s",
+        "description": "magnitude of change in beta and FEcrit"
+      },
+      "CoupleIndex": {
+        "units": "corr",
+        "description": "rolling correlation between beta and FEcrit rates"
+      },
+      "safety_margin": {
+        "units": "a.u.",
+        "description": "ThetaT minus avg_delta_P_tau"
+      }
+    },
+    "phase_rationale": {
+      "PRE_COLLAPSE": "initial healthy operation before any collapse triggers",
+      "DISINTEGRATION": "immediate decay after collapse criterion met",
+      "FLARING": "high exploration to regain stability",
+      "PRUNING": "selective reduction of over-extended components",
+      "RESTABILIZATION": "return to steady operation once metrics recover"
+    },
+    "thresholds": {
+      "rhoE_cross_high": 1.5,
+      "couple_low": -0.5
+    },
+    "version_info": {
+      "python": "3.12.3",
+      "numpy": "2.2.5",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.0",
+      "scipy": "1.15.2"
+    },
+    "domain_context": "purely computational simulation",
+    "random_seed": null,
+    "phase_windows": {
+      "PRE_COLLAPSE": [
+        0.0,
+        71.90000000000019
+      ],
+      "DISINTEGRATION": [
+        72.00000000000018,
+        74.00000000000007
+      ],
+      "FLARING": [
+        74.10000000000007,
+        143.9999999999961
+      ],
+      "PRUNING": [
+        144.0999999999961,
+        213.99999999999213
+      ],
+      "RESTABILIZATION": [
+        214.09999999999212,
+        293.99999999999835
+      ]
+    },
+    "phase_durations": {
+      "PRE_COLLAPSE": 71.90000000000019,
+      "DISINTEGRATION": 1.9999999999998863,
+      "FLARING": 69.89999999999604,
+      "PRUNING": 69.89999999999603,
+      "RESTABILIZATION": 79.90000000000623
+    },
+    "phase_steps": {
+      "PRE_COLLAPSE": 721,
+      "DISINTEGRATION": 21,
+      "FLARING": 700,
+      "PRUNING": 700,
+      "RESTABILIZATION": 800
+    },
+    "stats": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": {
+          "max": 0.7000000000000028,
+          "min": 0.4200000000000017,
+          "mean": 0.6986569579287547,
+          "std": 0.016723608231362833
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 100.0,
+          "min": 49.60000000000345,
+          "mean": 74.80000000000224,
+          "std": 14.579534171798283
+        },
+        "avg_delta_P_tau": {
+          "max": 4.975000000000048,
+          "min": 2.0,
+          "mean": 2.2475728155340002,
+          "std": 0.6575636348876704
+        },
+        "ThetaT": {
+          "max": 6.0164442749817395,
+          "min": 4.740276432281879,
+          "mean": 5.427063218750094,
+          "std": 0.36656674588393234
+        },
+        "safety_margin": {
+          "max": 4.0164442749817395,
+          "min": -0.23472356771816827,
+          "mean": 3.179490403216094,
+          "std": 0.9295686701280964
+        }
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": {
+          "max": 0.28000000000000114,
+          "min": 0.0,
+          "mean": 0.02555372905282633,
+          "std": 0.06776209940725596
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": -0.235729204506915,
+          "mean": -0.01985915214063816,
+          "std": 0.06330898591964072
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 49.60000000000345,
+          "min": 49.60000000000345,
+          "mean": 49.60000000000345,
+          "std": 7.280896430443988e-15
+        },
+        "avg_delta_P_tau": {
+          "max": 5.500000000000018,
+          "min": 5.000000000000046,
+          "mean": 5.250000000000032,
+          "std": 0.1551209205748769
+        },
+        "ThetaT": {
+          "max": 4.740276432281879,
+          "min": 4.740276432281879,
+          "mean": 4.7402764322818784,
+          "std": 9.101120538054985e-16
+        },
+        "safety_margin": {
+          "max": -0.25972356771816685,
+          "min": -0.7597235677181384,
+          "mean": -0.5097235677181526,
+          "std": 0.1551209205748769
+        }
+      },
+      "FLARING": {
+        "SpeedIndex": {
+          "max": 0.23313247180982088,
+          "min": 0.11587371517989843,
+          "mean": 0.20887348132023958,
+          "std": 0.0240363026542301
+        },
+        "CoupleIndex": {
+          "max": 1.000000001557251,
+          "min": -0.9768705781459552,
+          "mean": 0.8963892298903818,
+          "std": 0.37479370558258224
+        },
+        "rhoE": {
+          "max": 38.67229742215902,
+          "min": 1.009845998485231,
+          "mean": 19.2450960981812,
+          "std": 13.619628440190473
+        },
+        "gLever": {
+          "max": 0.994,
+          "min": 0.7000002164582982,
+          "mean": 0.7209999848479192,
+          "std": 0.05177849430395842
+        },
+        "betaLever": {
+          "max": 1.9805,
+          "min": 0.0517166068042808,
+          "mean": 0.3255429370376804,
+          "std": 0.43805236093487276
+        },
+        "FEcrit": {
+          "max": 63.44047300999995,
+          "min": 49.600255090274466,
+          "mean": 55.76656698186896,
+          "std": 4.256830145112381
+        },
+        "avg_delta_P_tau": {
+          "max": 12.0,
+          "min": 5.525000000000016,
+          "mean": 10.797499999999937,
+          "std": 1.9391178233313284
+        },
+        "ThetaT": {
+          "max": 4.715608433055382,
+          "min": 1.3713752830342987,
+          "mean": 2.0717160564500383,
+          "std": 0.8608211162721348
+        },
+        "safety_margin": {
+          "max": -0.8093915669446341,
+          "min": -10.628624716965701,
+          "mean": -8.7257839435499,
+          "std": 2.787146954777534
+        }
+      },
+      "PRUNING": {
+        "SpeedIndex": {
+          "max": 0.26162463933759456,
+          "min": 0.031041385249211472,
+          "mean": 0.06044872815313532,
+          "std": 0.05079112318195219
+        },
+        "CoupleIndex": {
+          "max": 1.0000000512964298,
+          "min": -0.9999165352167154,
+          "mean": 0.877763692851132,
+          "std": 0.44423491137945526
+        },
+        "rhoE": {
+          "max": 30.211735594092225,
+          "min": 1.3344675774535373,
+          "mean": 1.9459927688046366,
+          "std": 2.2263746893981877
+        },
+        "gLever": {
+          "max": 1.199999639236326,
+          "min": 0.7100002121291322,
+          "mean": 1.165000040405538,
+          "std": 0.08629745314698155
+        },
+        "betaLever": {
+          "max": 1.498725059934725,
+          "min": 0.06619944073623799,
+          "mean": 1.295351661628694,
+          "std": 0.32534562035495035
+        },
+        "FEcrit": {
+          "max": 67.2739518394943,
+          "min": 63.46295871352872,
+          "mean": 65.97617580065447,
+          "std": 0.9302834943771531
+        },
+        "avg_delta_P_tau": {
+          "max": 12.0,
+          "min": 12.0,
+          "mean": 12.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.076752338229726,
+          "min": 1.4950445389022171,
+          "mean": 4.716854592971618,
+          "std": 0.6391544143411076
+        },
+        "safety_margin": {
+          "max": -6.923247661770274,
+          "min": -10.504955461097783,
+          "mean": -7.283145407028382,
+          "std": 0.6391544143411074
+        }
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": {
+          "max": 0.6799901958846624,
+          "min": 0.3893011253352988,
+          "mean": 0.6769865802107706,
+          "std": 0.011980537790267233
+        },
+        "CoupleIndex": {
+          "max": 1.0000739136518115,
+          "min": -0.999982785591941,
+          "mean": 0.8720177593948284,
+          "std": 0.4745404874774999
+        },
+        "rhoE": {
+          "max": 1.3317904014717041,
+          "min": 1.1111710387400786,
+          "mean": 1.1362775011975155,
+          "std": 0.045594598685550485
+        },
+        "gLever": {
+          "max": 1.1959996464515994,
+          "min": 1.0000000191377014,
+          "mean": 1.0122499767310407,
+          "std": 0.0326173239288488
+        },
+        "betaLever": {
+          "max": 1.7999029224769358,
+          "min": 1.5017378093353777,
+          "mean": 1.7627292395104013,
+          "std": 0.0648390751529722
+        },
+        "FEcrit": {
+          "max": 67.2070621076506,
+          "min": 13.076396694320335,
+          "mean": 40.211526703341136,
+          "std": 15.674686898276514
+        },
+        "avg_delta_P_tau": {
+          "max": 12.0,
+          "min": 12.0,
+          "mean": 12.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.072807411311051,
+          "min": 2.9096325698190073,
+          "mean": 4.165605533914276,
+          "std": 0.5886366757516915
+        },
+        "safety_margin": {
+          "max": -6.927192588688949,
+          "min": -9.090367430180994,
+          "mean": -7.834394466085725,
+          "std": 0.5886366757516912
+        }
+      }
+    },
+    "times_of_peaks": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": 51.60000000000046,
+        "CoupleIndex": 0.0,
+        "rhoE": 0.0,
+        "gLever": 0.0,
+        "betaLever": 0.0,
+        "FEcrit": 0.0,
+        "avg_delta_P_tau": 71.90000000000019,
+        "ThetaT": 0.0,
+        "safety_margin": 0.0
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": 72.00000000000018,
+        "CoupleIndex": 72.00000000000018,
+        "rhoE": 72.00000000000018,
+        "gLever": 72.00000000000018,
+        "betaLever": 72.00000000000018,
+        "FEcrit": 72.00000000000018,
+        "avg_delta_P_tau": 74.00000000000007,
+        "ThetaT": 72.00000000000018,
+        "safety_margin": 72.00000000000018
+      },
+      "FLARING": {
+        "SpeedIndex": 143.9999999999961,
+        "CoupleIndex": 143.79999999999612,
+        "rhoE": 143.9999999999961,
+        "gLever": 74.10000000000007,
+        "betaLever": 74.10000000000007,
+        "FEcrit": 143.9999999999961,
+        "avg_delta_P_tau": 100.09999999999859,
+        "ThetaT": 74.10000000000007,
+        "safety_margin": 74.10000000000007
+      },
+      "PRUNING": {
+        "SpeedIndex": 144.2999999999961,
+        "CoupleIndex": 213.79999999999214,
+        "rhoE": 144.0999999999961,
+        "gLever": 213.99999999999213,
+        "betaLever": 213.99999999999213,
+        "FEcrit": 213.99999999999213,
+        "avg_delta_P_tau": 144.0999999999961,
+        "ThetaT": 213.99999999999213,
+        "safety_margin": 213.99999999999213
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": 293.99999999999835,
+        "CoupleIndex": 293.99999999999835,
+        "rhoE": 214.09999999999212,
+        "gLever": 214.09999999999212,
+        "betaLever": 293.99999999999835,
+        "FEcrit": 214.09999999999212,
+        "avg_delta_P_tau": 214.09999999999212,
+        "ThetaT": 214.09999999999212,
+        "safety_margin": 214.09999999999212
+      }
+    },
+    "corr_dot_beta_dot_fcrit": {
+      "PRE_COLLAPSE": NaN,
+      "DISINTEGRATION": -0.09887795298880338,
+      "FLARING": 0.9942012119253651,
+      "PRUNING": 0.9504495091118621,
+      "RESTABILIZATION": 0.40005974000205313
+    },
+    "crossings": {
+      "rhoE>1.5": {
+        "count": 1,
+        "first": 78.19999999999983
+      },
+      "CoupleIndex<-0.5": {
+        "count": 3,
+        "first": 76.9999999999999
+      }
+    },
+    "trajectory_bbox": {
+      "SpeedIndex": {
+        "min": 0.0,
+        "max": 0.7000000000000028
+      },
+      "CoupleIndex": {
+        "min": -0.999982785591941,
+        "max": 1.0000739136518115
+      },
+      "rhoE": {
+        "min": 1.0,
+        "max": 38.67229742215902
+      }
+    },
+    "path_length_3d": 85.8013117504367,
+    "final_state": {
+      "gLever": 1.0000000191377014,
+      "betaLever": 1.7999029224769358,
+      "FEcrit": 13.076396694320335,
+      "rhoE": 1.1111710387400786,
+      "SpeedIndex": 0.6799901958846624,
+      "CoupleIndex": 1.0000739136518115
+    },
+    "start_state": {
+      "gLever": 1.0,
+      "betaLever": 2.0,
+      "FEcrit": 100.0,
+      "rhoE": 1.0,
+      "SpeedIndex": 0.4666666666666212,
+      "CoupleIndex": 0.0
+    },
+    "trend_overall": {
+      "gLever": "stable",
+      "betaLever": "decrease",
+      "FEcrit": "decrease",
+      "rhoE": "increase",
+      "SpeedIndex": "increase",
+      "CoupleIndex": "increase"
+    },
+    "final_state_delta_from_baseline": {
+      "gLever": -3.905653578328838e-10,
+      "betaLever": 9.8058104103238e-07,
+      "FEcrit": -446.21080116755184,
+      "rhoE": -6.053625636326387e-07,
+      "SpeedIndex": -0.13001475577682475,
+      "CoupleIndex": 6.85260125476983e-05
+    }
+  },
+  {
+    "scenario_name": "Lever_Cost_Instability_Collapse_Severe",
+    "collapsed": true,
+    "t_collapse": 76.09999999999995,
+    "baseline_entropy_method": "beta_inverse",
+    "baseline_value": 0.5,
+    "entropy_method": "beta_inverse",
+    "sampling_rate_hz": 10.0,
+    "aggregation": {
+      "mean": "arithmetic",
+      "std": "sample",
+      "nan_policy": "omit"
+    },
+    "collapse_criteria": {
+      "FEcrit_min_abs": 0.2,
+      "strain_ratio": 1.05,
+      "beta_threshold": Infinity
+    },
+    "variable_glossary": {
+      "gLever": {
+        "units": "a.u.",
+        "description": "resource allocation lever"
+      },
+      "betaLever": {
+        "units": "a.u.",
+        "description": "exploration/stochasticity lever"
+      },
+      "FEcrit": {
+        "units": "a.u.",
+        "description": "critical free energy reserve"
+      },
+      "avg_delta_P_tau": {
+        "units": "a.u.",
+        "description": "average accumulated strain"
+      },
+      "ThetaT": {
+        "units": "a.u.",
+        "description": "tolerance threshold"
+      },
+      "rhoE": {
+        "units": "ratio",
+        "description": "entropy relative to baseline"
+      },
+      "EntropyExp": {
+        "units": "a.u.",
+        "description": "expected entropy (1/beta)"
+      },
+      "SpeedIndex": {
+        "units": "a.u./s",
+        "description": "magnitude of change in beta and FEcrit"
+      },
+      "CoupleIndex": {
+        "units": "corr",
+        "description": "rolling correlation between beta and FEcrit rates"
+      },
+      "safety_margin": {
+        "units": "a.u.",
+        "description": "ThetaT minus avg_delta_P_tau"
+      }
+    },
+    "phase_rationale": {
+      "PRE_COLLAPSE": "initial healthy operation before any collapse triggers",
+      "DISINTEGRATION": "immediate decay after collapse criterion met",
+      "FLARING": "high exploration to regain stability",
+      "PRUNING": "selective reduction of over-extended components",
+      "RESTABILIZATION": "return to steady operation once metrics recover"
+    },
+    "thresholds": {
+      "rhoE_cross_high": 1.5,
+      "couple_low": -0.5
+    },
+    "version_info": {
+      "python": "3.12.3",
+      "numpy": "2.2.5",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.0",
+      "scipy": "1.15.2"
+    },
+    "domain_context": "purely computational simulation",
+    "random_seed": null,
+    "phase_windows": {
+      "PRE_COLLAPSE": [
+        0.0,
+        75.99999999999996
+      ],
+      "DISINTEGRATION": [
+        76.09999999999995,
+        78.09999999999984
+      ],
+      "FLARING": [
+        78.19999999999983,
+        185.39999999999375
+      ],
+      "PRUNING": [
+        185.49999999999375,
+        241.89999999999054
+      ],
+      "RESTABILIZATION": [
+        241.99999999999054,
+        298.0999999999993
+      ]
+    },
+    "phase_durations": {
+      "PRE_COLLAPSE": 75.99999999999996,
+      "DISINTEGRATION": 1.9999999999998863,
+      "FLARING": 107.19999999999392,
+      "PRUNING": 56.399999999996794,
+      "RESTABILIZATION": 56.10000000000875
+    },
+    "phase_steps": {
+      "PRE_COLLAPSE": 762,
+      "DISINTEGRATION": 21,
+      "FLARING": 1073,
+      "PRUNING": 565,
+      "RESTABILIZATION": 562
+    },
+    "stats": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": {
+          "max": 13.516407211578713,
+          "min": 0.1341228249782489,
+          "mean": 1.2913184548821135,
+          "std": 3.5700291605646126
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": 0.0,
+          "mean": 0.0,
+          "std": 0.0
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.7999998316808266,
+          "min": 1.0,
+          "mean": 1.7475065725034638,
+          "std": 0.13593439465926543
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 100.0,
+          "min": 1.3140623675295777,
+          "mean": 87.93964411783374,
+          "std": 15.840692615530367
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 7.174120346222178,
+          "min": 1.6745928955429294,
+          "mean": 6.864473670215083,
+          "std": 0.6468738210407531
+        },
+        "safety_margin": {
+          "max": 5.174120346222178,
+          "min": -0.32540710445707055,
+          "mean": 4.864473670215083,
+          "std": 0.646873821040753
+        }
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": {
+          "max": 8.034687627582874,
+          "min": 0.0,
+          "mean": 0.7702700872743021,
+          "std": 2.0909238339719187
+        },
+        "CoupleIndex": {
+          "max": 0.0,
+          "min": -0.24503004251410232,
+          "mean": -0.02066372806551286,
+          "std": 0.06586321608376593
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "gLever": {
+          "max": 1.7999998316808266,
+          "min": 1.7999998316808266,
+          "mean": 1.7999998316808268,
+          "std": 2.275280134513746e-16
+        },
+        "betaLever": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 0.032421643758557384,
+          "min": 0.0,
+          "mean": 0.001543887798026542,
+          "std": 0.007074982698975324
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 0.47562395716518235,
+          "min": 0.013918095491664204,
+          "mean": 0.03590408890468889,
+          "std": 0.10075247904398613
+        },
+        "safety_margin": {
+          "max": -1.5243760428348176,
+          "min": -1.9860819045083358,
+          "mean": -1.9640959110953116,
+          "std": 0.10075247904398608
+        }
+      },
+      "FLARING": {
+        "SpeedIndex": {
+          "max": 0.6527250766422475,
+          "min": 0.0010910355217340906,
+          "mean": 0.34472155839122737,
+          "std": 0.29939354324998896
+        },
+        "CoupleIndex": {
+          "max": 0.9999712758059204,
+          "min": -0.9978372733529588,
+          "mean": -0.10475085025396517,
+          "std": 0.6866683481904745
+        },
+        "rhoE": {
+          "max": 39.967689962803234,
+          "min": 1.009845998485231,
+          "mean": 26.33838073641112,
+          "std": 14.680075063305624
+        },
+        "gLever": {
+          "max": 1.76799983504721,
+          "min": 0.20000042899341972,
+          "mean": 0.40124434421690003,
+          "std": 0.27526960433240855
+        },
+        "betaLever": {
+          "max": 1.9805,
+          "min": 0.05004042019594682,
+          "mean": 0.2299123936631886,
+          "std": 0.37722787744377845
+        },
+        "FEcrit": {
+          "max": 35.06084624121495,
+          "min": 0.0,
+          "mean": 9.20195417850691,
+          "std": 11.502387048031121
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 1.1085384729495955,
+          "min": 0.0021259497055254512,
+          "mean": 0.37868154841746887,
+          "std": 0.4169457900111512
+        },
+        "safety_margin": {
+          "max": -0.8914615270504045,
+          "min": -1.9978740502944745,
+          "mean": -1.6213184515825312,
+          "std": 0.41694579001115123
+        }
+      },
+      "PRUNING": {
+        "SpeedIndex": {
+          "max": 0.6263392925717693,
+          "min": 0.23605095920877195,
+          "mean": 0.531061631582945,
+          "std": 0.02861578533279936
+        },
+        "CoupleIndex": {
+          "max": 0.9999983657090028,
+          "min": -0.9987629767224735,
+          "mean": 0.8485098705403569,
+          "std": 0.4902194517178009
+        },
+        "rhoE": {
+          "max": 30.988526562905143,
+          "min": 1.3377543888518193,
+          "mean": 2.0985052526818904,
+          "std": 2.4984206443783443
+        },
+        "gLever": {
+          "max": 1.1999944750785925,
+          "min": 0.7092962081525359,
+          "mean": 1.1565753648296917,
+          "std": 0.09429790005599438
+        },
+        "betaLever": {
+          "max": 1.4950427497506318,
+          "min": 0.06454001599398736,
+          "mean": 1.2468049015470553,
+          "std": 0.3454950701458171
+        },
+        "FEcrit": {
+          "max": 65.0181242967432,
+          "min": 35.12210156863353,
+          "mean": 50.34941621115887,
+          "std": 8.571869100957688
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.014141104646426,
+          "min": 1.2120319865569917,
+          "mean": 4.242780813944116,
+          "std": 0.7821547004490048
+        },
+        "safety_margin": {
+          "max": 3.014141104646426,
+          "min": -0.7879680134430083,
+          "mean": 2.242780813944117,
+          "std": 0.7821547004490048
+        }
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": {
+          "max": 0.18994588028990367,
+          "min": 0.05039393134928385,
+          "mean": 0.18799807677713684,
+          "std": 0.007148549946219906
+        },
+        "CoupleIndex": {
+          "max": 0.9999815720181067,
+          "min": -0.9999141666085573,
+          "mean": 0.8191882474887344,
+          "std": 0.5569901961531002
+        },
+        "rhoE": {
+          "max": 1.3350312062156537,
+          "min": 1.1117747970956722,
+          "mean": 1.1473098348349937,
+          "std": 0.05156570081433992
+        },
+        "gLever": {
+          "max": 1.1959945855770207,
+          "min": 1.0000023446203903,
+          "mean": 1.0174370362855019,
+          "std": 0.0377431789978485
+        },
+        "betaLever": {
+          "max": 1.7989254705401392,
+          "min": 1.4980923222531255,
+          "mean": 1.746469058081564,
+          "std": 0.07275837601034801
+        },
+        "FEcrit": {
+          "max": 64.999697681395,
+          "min": 54.44268740685362,
+          "mean": 59.750442789622504,
+          "std": 3.0612708931702213
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 5.011505666815794,
+          "min": 4.724698839462388,
+          "mean": 4.852552777467349,
+          "std": 0.06633890077505555
+        },
+        "safety_margin": {
+          "max": 3.0115056668157942,
+          "min": 2.7246988394623877,
+          "mean": 2.8525527774673494,
+          "std": 0.06633890077505555
+        }
+      }
+    },
+    "times_of_peaks": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": 75.79999999999997,
+        "CoupleIndex": 0.0,
+        "rhoE": 0.0,
+        "gLever": 75.99999999999996,
+        "betaLever": 0.0,
+        "FEcrit": 0.0,
+        "avg_delta_P_tau": 0.0,
+        "ThetaT": 17.69999999999998,
+        "safety_margin": 17.69999999999998
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": 76.09999999999995,
+        "CoupleIndex": 76.09999999999995,
+        "rhoE": 76.09999999999995,
+        "gLever": 76.09999999999995,
+        "betaLever": 76.09999999999995,
+        "FEcrit": 76.09999999999995,
+        "avg_delta_P_tau": 76.09999999999995,
+        "ThetaT": 76.09999999999995,
+        "safety_margin": 76.09999999999995
+      },
+      "FLARING": {
+        "SpeedIndex": 152.7999999999956,
+        "CoupleIndex": 135.1999999999966,
+        "rhoE": 185.39999999999375,
+        "gLever": 78.19999999999983,
+        "betaLever": 78.19999999999983,
+        "FEcrit": 185.39999999999375,
+        "avg_delta_P_tau": 78.19999999999983,
+        "ThetaT": 185.39999999999375,
+        "safety_margin": 185.39999999999375
+      },
+      "PRUNING": {
+        "SpeedIndex": 185.69999999999374,
+        "CoupleIndex": 221.99999999999167,
+        "rhoE": 185.49999999999375,
+        "gLever": 241.89999999999054,
+        "betaLever": 241.89999999999054,
+        "FEcrit": 241.89999999999054,
+        "avg_delta_P_tau": 185.49999999999375,
+        "ThetaT": 241.89999999999054,
+        "safety_margin": 241.89999999999054
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": 298.0999999999993,
+        "CoupleIndex": 274.99999999999403,
+        "rhoE": 241.99999999999054,
+        "gLever": 241.99999999999054,
+        "betaLever": 298.0999999999993,
+        "FEcrit": 241.99999999999054,
+        "avg_delta_P_tau": 241.99999999999054,
+        "ThetaT": 241.99999999999054,
+        "safety_margin": 241.99999999999054
+      }
+    },
+    "corr_dot_beta_dot_fcrit": {
+      "PRE_COLLAPSE": NaN,
+      "DISINTEGRATION": -0.11471877114622156,
+      "FLARING": 0.49120830565923856,
+      "PRUNING": 0.8476780870487479,
+      "RESTABILIZATION": 0.2536735837924018
+    },
+    "crossings": {
+      "rhoE>1.5": {
+        "count": 1,
+        "first": 82.2999999999996
+      },
+      "CoupleIndex<-0.5": {
+        "count": 2,
+        "first": 153.59999999999556
+      }
+    },
+    "trajectory_bbox": {
+      "SpeedIndex": {
+        "min": 0.0,
+        "max": 13.516407211578713
+      },
+      "CoupleIndex": {
+        "min": -0.9999141666085573,
+        "max": 0.9999983657090028
+      },
+      "rhoE": {
+        "min": 1.0,
+        "max": 39.967689962803234
+      }
+    },
+    "path_length_3d": 114.56582467185817,
+    "final_state": {
+      "gLever": 1.0000023446203903,
+      "betaLever": 1.7989254705401392,
+      "FEcrit": 54.44268740685362,
+      "rhoE": 1.1117747970956722,
+      "SpeedIndex": 0.18994588028990367,
+      "CoupleIndex": 0.999077749470551
+    },
+    "start_state": {
+      "gLever": 1.0,
+      "betaLever": 2.0,
+      "FEcrit": 100.0,
+      "rhoE": 1.0,
+      "SpeedIndex": 0.1341228249782489,
+      "CoupleIndex": 0.0
+    },
+    "trend_overall": {
+      "gLever": "stable",
+      "betaLever": "decrease",
+      "FEcrit": "decrease",
+      "rhoE": "increase",
+      "SpeedIndex": "increase",
+      "CoupleIndex": "increase"
+    },
+    "final_state_delta_from_baseline": {
+      "gLever": 2.3250921235007382e-06,
+      "betaLever": -0.0009764713557556259,
+      "FEcrit": -404.84451045501856,
+      "rhoE": 0.0006031529930299317,
+      "SpeedIndex": -0.6200590713715834,
+      "CoupleIndex": -0.0009276381687128854
+    }
+  },
+  {
+    "scenario_name": "Beta_Runaway_Collapse",
+    "collapsed": true,
+    "t_collapse": 24.400000000000077,
+    "baseline_entropy_method": "beta_inverse",
+    "baseline_value": 0.5,
+    "entropy_method": "beta_inverse",
+    "sampling_rate_hz": 10.0,
+    "aggregation": {
+      "mean": "arithmetic",
+      "std": "sample",
+      "nan_policy": "omit"
+    },
+    "collapse_criteria": {
+      "FEcrit_min_abs": 0.05,
+      "strain_ratio": 1.05,
+      "beta_threshold": 19.5
+    },
+    "variable_glossary": {
+      "gLever": {
+        "units": "a.u.",
+        "description": "resource allocation lever"
+      },
+      "betaLever": {
+        "units": "a.u.",
+        "description": "exploration/stochasticity lever"
+      },
+      "FEcrit": {
+        "units": "a.u.",
+        "description": "critical free energy reserve"
+      },
+      "avg_delta_P_tau": {
+        "units": "a.u.",
+        "description": "average accumulated strain"
+      },
+      "ThetaT": {
+        "units": "a.u.",
+        "description": "tolerance threshold"
+      },
+      "rhoE": {
+        "units": "ratio",
+        "description": "entropy relative to baseline"
+      },
+      "EntropyExp": {
+        "units": "a.u.",
+        "description": "expected entropy (1/beta)"
+      },
+      "SpeedIndex": {
+        "units": "a.u./s",
+        "description": "magnitude of change in beta and FEcrit"
+      },
+      "CoupleIndex": {
+        "units": "corr",
+        "description": "rolling correlation between beta and FEcrit rates"
+      },
+      "safety_margin": {
+        "units": "a.u.",
+        "description": "ThetaT minus avg_delta_P_tau"
+      }
+    },
+    "phase_rationale": {
+      "PRE_COLLAPSE": "initial healthy operation before any collapse triggers",
+      "DISINTEGRATION": "immediate decay after collapse criterion met",
+      "FLARING": "high exploration to regain stability",
+      "PRUNING": "selective reduction of over-extended components",
+      "RESTABILIZATION": "return to steady operation once metrics recover"
+    },
+    "thresholds": {
+      "rhoE_cross_high": 1.5,
+      "couple_low": -0.5
+    },
+    "version_info": {
+      "python": "3.12.3",
+      "numpy": "2.2.5",
+      "pandas": "2.2.3",
+      "matplotlib": "3.10.0",
+      "scipy": "1.15.2"
+    },
+    "domain_context": "purely computational simulation",
+    "random_seed": null,
+    "phase_windows": {
+      "PRE_COLLAPSE": [
+        0.0,
+        24.300000000000075
+      ],
+      "DISINTEGRATION": [
+        24.400000000000077,
+        26.300000000000104
+      ],
+      "FLARING": [
+        26.400000000000105,
+        96.3999999999988
+      ],
+      "PRUNING": [
+        96.49999999999879,
+        166.39999999999483
+      ],
+      "RESTABILIZATION": [
+        166.49999999999483,
+        246.39999999999029
+      ]
+    },
+    "phase_durations": {
+      "PRE_COLLAPSE": 24.300000000000075,
+      "DISINTEGRATION": 1.900000000000027,
+      "FLARING": 69.99999999999869,
+      "PRUNING": 69.89999999999604,
+      "RESTABILIZATION": 79.89999999999546
+    },
+    "phase_steps": {
+      "PRE_COLLAPSE": 245,
+      "DISINTEGRATION": 20,
+      "FLARING": 701,
+      "PRUNING": 700,
+      "RESTABILIZATION": 800
+    },
+    "stats": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": {
+          "max": 6.587826871521968,
+          "min": 3.4730243935418734,
+          "mean": 4.423246810171606,
+          "std": 0.3454147905331811
+        },
+        "CoupleIndex": {
+          "max": 1.0000000000000002,
+          "min": -0.20658113155218621,
+          "mean": 0.8873553169250068,
+          "std": 0.31214933240445436
+        },
+        "rhoE": {
+          "max": 1.0,
+          "min": 0.11111241557701865,
+          "mean": 0.13469035192455558,
+          "std": 0.08749106611503991
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 17.999788679003927,
+          "min": 2.0,
+          "mean": 16.548771139369727,
+          "std": 3.1322827363782424
+        },
+        "FEcrit": {
+          "max": 100.0084,
+          "min": 0.3865321256325971,
+          "mean": 54.36271762539879,
+          "std": 30.608576471077495
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 11.475906404490749,
+          "min": 1.8788034389161503,
+          "mean": 9.149971487171213,
+          "std": 2.1976699241597637
+        },
+        "safety_margin": {
+          "max": 9.475906404490749,
+          "min": -0.12119656108384969,
+          "mean": 7.1499714871712134,
+          "std": 2.197669924159764
+        }
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": {
+          "max": 3.1582653180707396,
+          "min": 0.0,
+          "mean": 0.49029886743559087,
+          "std": 0.9677425170787816
+        },
+        "CoupleIndex": {
+          "max": -0.19694032606582437,
+          "min": -0.8101495473212474,
+          "mean": -0.5598090484803161,
+          "std": 0.1950569802412093
+        },
+        "rhoE": {
+          "max": 0.11111241557701865,
+          "min": 0.11111241557701865,
+          "mean": 0.11111241557701863,
+          "std": 1.4238309865648918e-17
+        },
+        "gLever": {
+          "max": 1.0,
+          "min": 1.0,
+          "mean": 1.0,
+          "std": 0.0
+        },
+        "betaLever": {
+          "max": 17.999788679003927,
+          "min": 17.999788679003927,
+          "mean": 17.999788679003927,
+          "std": 0.0
+        },
+        "FEcrit": {
+          "max": 0.006538465262479198,
+          "min": 0.0,
+          "mean": 0.0003269232631239599,
+          "std": 0.001462045279542449
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 0.46935345937034184,
+          "min": 0.02367217943541313,
+          "mean": 0.04595624343215956,
+          "std": 0.09965736382336132
+        },
+        "safety_margin": {
+          "max": -1.530646540629658,
+          "min": -1.976327820564587,
+          "mean": -1.95404375656784,
+          "std": 0.09965736382336136
+        }
+      },
+      "FLARING": {
+        "SpeedIndex": {
+          "max": 7.382422524879274,
+          "min": 1.3633019439013654,
+          "mean": 1.7105507387918846,
+          "std": 0.6393724597175954
+        },
+        "CoupleIndex": {
+          "max": 0.9999953513178594,
+          "min": -0.9999998853814496,
+          "mean": -0.21555174259555648,
+          "std": 0.6821033932164312
+        },
+        "rhoE": {
+          "max": 39.99999999986211,
+          "min": 0.11633285214636553,
+          "mean": 32.73393322691584,
+          "std": 13.73629456385787
+        },
+        "gLever": {
+          "max": 0.984,
+          "min": 0.2472868717072697,
+          "mean": 0.6211130747039065,
+          "std": 0.1423905700260792
+        },
+        "betaLever": {
+          "max": 17.19204818844875,
+          "min": 0.05000000000017236,
+          "mean": 0.5934156978427195,
+          "std": 2.1156375692782627
+        },
+        "FEcrit": {
+          "max": 105.04062450090183,
+          "min": 0.0,
+          "mean": 49.226863284328665,
+          "std": 32.0461484156812
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 1.6099145527088676,
+          "min": 0.014023417495453435,
+          "mean": 1.1752918487541266,
+          "std": 0.34929993445664803
+        },
+        "safety_margin": {
+          "max": -0.39008544729113237,
+          "min": -1.9859765825045466,
+          "mean": -0.8247081512458733,
+          "std": 0.3492999344566481
+        }
+      },
+      "PRUNING": {
+        "SpeedIndex": {
+          "max": 1.6554397167353048,
+          "min": 0.8597927558901051,
+          "mean": 1.15693180943472,
+          "std": 0.06723022635083852
+        },
+        "CoupleIndex": {
+          "max": 0.9999816690998036,
+          "min": -0.9999999997400891,
+          "mean": 0.4404776439218834,
+          "std": 0.5357926836389043
+        },
+        "rhoE": {
+          "max": 17.353579175680203,
+          "min": 1.3333333333333464,
+          "mean": 1.4520419796938624,
+          "std": 0.8520671341535194
+        },
+        "gLever": {
+          "max": 1.1999996392322616,
+          "min": 0.7099946926512299,
+          "mean": 1.1649996461574008,
+          "std": 0.08629842522267923
+        },
+        "betaLever": {
+          "max": 1.4999999999999853,
+          "min": 0.11525000000016461,
+          "mean": 1.456039682539688,
+          "std": 0.17101723025752666
+        },
+        "FEcrit": {
+          "max": 185.91426282414855,
+          "min": 105.19874088262203,
+          "mean": 146.019306474667,
+          "std": 23.11972326889464
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 7.1747406113714876,
+          "min": 2.1317647480223947,
+          "mean": 6.461647118413756,
+          "std": 0.6817123553805208
+        },
+        "safety_margin": {
+          "max": 5.1747406113714876,
+          "min": 0.13176474802239468,
+          "mean": 4.461647118413756,
+          "std": 0.6817123553805208
+        }
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": {
+          "max": 0.7201288954421609,
+          "min": 0.3594765197296651,
+          "mean": 0.3625982486078436,
+          "std": 0.01749300103287579
+        },
+        "CoupleIndex": {
+          "max": 0.9998970346631215,
+          "min": -0.9998694429071685,
+          "mean": -0.17005448818296034,
+          "std": 0.5809486562285886
+        },
+        "rhoE": {
+          "max": 1.3214403700033157,
+          "min": 1.1111111111111125,
+          "mean": 1.1164731258747493,
+          "std": 0.023111290196113674
+        },
+        "gLever": {
+          "max": 1.1959996464476164,
+          "min": 1.0000000191377014,
+          "mean": 1.0122499767307918,
+          "std": 0.0326173239281859
+        },
+        "betaLever": {
+          "max": 1.7999999999999976,
+          "min": 1.513499999999986,
+          "mean": 1.7920416666666659,
+          "std": 0.03323127602432734
+        },
+        "FEcrit": {
+          "max": 214.8574022096046,
+          "min": 185.9579216472734,
+          "mean": 200.4733013816277,
+          "std": 8.322853756666115
+        },
+        "avg_delta_P_tau": {
+          "max": 2.0,
+          "min": 2.0,
+          "mean": 2.0,
+          "std": 0.0
+        },
+        "ThetaT": {
+          "max": 7.536523165205076,
+          "min": 7.18863511029064,
+          "mean": 7.3765627921364265,
+          "std": 0.08400347933446109
+        },
+        "safety_margin": {
+          "max": 5.536523165205076,
+          "min": 5.18863511029064,
+          "mean": 5.3765627921364265,
+          "std": 0.08400347933446112
+        }
+      }
+    },
+    "times_of_peaks": {
+      "PRE_COLLAPSE": {
+        "SpeedIndex": 0.2,
+        "CoupleIndex": 5.099999999999998,
+        "rhoE": 0.0,
+        "gLever": 0.0,
+        "betaLever": 24.300000000000075,
+        "FEcrit": 0.0,
+        "avg_delta_P_tau": 0.0,
+        "ThetaT": 4.799999999999999,
+        "safety_margin": 4.799999999999999
+      },
+      "DISINTEGRATION": {
+        "SpeedIndex": 26.300000000000104,
+        "CoupleIndex": 26.200000000000102,
+        "rhoE": 24.400000000000077,
+        "gLever": 24.400000000000077,
+        "betaLever": 24.400000000000077,
+        "FEcrit": 24.400000000000077,
+        "avg_delta_P_tau": 24.400000000000077,
+        "ThetaT": 24.400000000000077,
+        "safety_margin": 24.400000000000077
+      },
+      "FLARING": {
+        "SpeedIndex": 26.600000000000108,
+        "CoupleIndex": 34.100000000000215,
+        "rhoE": 96.3999999999988,
+        "gLever": 26.400000000000105,
+        "betaLever": 26.400000000000105,
+        "FEcrit": 96.3999999999988,
+        "avg_delta_P_tau": 26.400000000000105,
+        "ThetaT": 96.3999999999988,
+        "safety_margin": 96.3999999999988
+      },
+      "PRUNING": {
+        "SpeedIndex": 96.69999999999878,
+        "CoupleIndex": 101.5999999999985,
+        "rhoE": 96.49999999999879,
+        "gLever": 166.39999999999483,
+        "betaLever": 166.39999999999483,
+        "FEcrit": 166.39999999999483,
+        "avg_delta_P_tau": 96.49999999999879,
+        "ThetaT": 166.39999999999483,
+        "safety_margin": 166.39999999999483
+      },
+      "RESTABILIZATION": {
+        "SpeedIndex": 166.49999999999483,
+        "CoupleIndex": 171.59999999999454,
+        "rhoE": 166.49999999999483,
+        "gLever": 166.49999999999483,
+        "betaLever": 236.59999999999084,
+        "FEcrit": 246.39999999999029,
+        "avg_delta_P_tau": 166.49999999999483,
+        "ThetaT": 246.39999999999029,
+        "safety_margin": 246.39999999999029
+      }
+    },
+    "corr_dot_beta_dot_fcrit": {
+      "PRE_COLLAPSE": 0.9884804966413189,
+      "DISINTEGRATION": -0.12003030294710526,
+      "FLARING": 0.9312585841182438,
+      "PRUNING": 0.9624175648963886,
+      "RESTABILIZATION": 0.6843738551280178
+    },
+    "crossings": {
+      "rhoE>1.5": {
+        "count": 1,
+        "first": 32.100000000000186
+      },
+      "CoupleIndex<-0.5": {
+        "count": 5,
+        "first": 24.900000000000084
+      }
+    },
+    "trajectory_bbox": {
+      "SpeedIndex": {
+        "min": 0.0,
+        "max": 7.382422524879274
+      },
+      "CoupleIndex": {
+        "min": -0.9999999997400891,
+        "max": 1.0000000000000002
+      },
+      "rhoE": {
+        "min": 0.11111241557701865,
+        "max": 39.99999999986211
+      }
+    },
+    "path_length_3d": 115.68403185942903,
+    "final_state": {
+      "gLever": 1.0000000191377014,
+      "betaLever": 1.7999999999999976,
+      "FEcrit": 214.8574022096046,
+      "rhoE": 1.1111111111111125,
+      "SpeedIndex": 0.3599999990234437,
+      "CoupleIndex": 0.0
+    },
+    "start_state": {
+      "gLever": 1.0,
+      "betaLever": 2.0,
+      "FEcrit": 100.0,
+      "rhoE": 1.0,
+      "SpeedIndex": 4.692017350522056,
+      "CoupleIndex": 0.0
+    },
+    "trend_overall": {
+      "gLever": "stable",
+      "betaLever": "decrease",
+      "FEcrit": "increase",
+      "rhoE": "increase",
+      "SpeedIndex": "decrease",
+      "CoupleIndex": "stable"
+    },
+    "final_state_delta_from_baseline": {
+      "gLever": -3.905653578328838e-10,
+      "betaLever": 9.805810410279392e-05,
+      "FEcrit": -244.4297956522676,
+      "rhoE": -6.0532991529749225e-05,
+      "SpeedIndex": -0.4500049526380434,
+      "CoupleIndex": -1.0000053876392638
+    }
+  }
+]
