@@ -306,65 +306,62 @@ def standard_shock_strain_profile(t, params, simulator_instance=None): # Renamed
 
 # --- Plotting Functions (Reused robust versions) ---
 # robust_plot_simulation_results and robust_plot_diagnostic_trajectories from previous response
+def _add_phase_bands(ax, df, phase_colors):
+    """Shade vertical bands that indicate the true phase."""
+    ymin, ymax = ax.get_ylim()                # limits *after* plotting
+    for phase_val, colour in phase_colors.items():
+        if phase_val == -1 and not (df['current_phase_est_numeric'] == -1).any():
+            continue
+        ax.fill_between(df['t'], ymin, ymax,
+                        where=df['current_phase_est_numeric'] == phase_val,
+                        step='post', color=colour, alpha=0.35, zorder=-10)
 
 def robust_plot_simulation_results(df, params, title_suffix=""):
-    if df.empty or len(df) < 2: 
-        print(f"DataFrame for '{title_suffix}' is too short or empty. Skipping detailed time series plots.")
-        fig, ax = plt.subplots(1,1, figsize=(10,3))
-        ax.text(0.5, 0.5, f"No sufficient data to plot for: {title_suffix}", ha='center', va='center')
-        ax.set_title("Phoenix Loop Simulation: " + title_suffix if title_suffix else "Phoenix Loop Simulation")
-        plt.show()
-        return
+    if df.empty or len(df) < 2:
+        print(f"No data for '{title_suffix}'; skipping plot."); return
 
     fig, axs = plt.subplots(4, 1, figsize=(16, 20), sharex=True)
-    phase_colors = {0: 'lightgray', 1: 'salmon', 2: 'moccasin', 3: 'lightgreen', 4: 'lightblue', -1: 'white'}
-    phase_labels = {0: 'Pre-Collapse', 1: 'Disintegration', 2: 'Flaring', 3: 'Pruning', 4: 'Restabilization', -1: 'Unknown'}
+    phase_colors = {0:'lightgray',1:'salmon',2:'moccasin',
+                    3:'lightgreen',4:'lightblue',-1:'white'}
 
-    y_lims_original = []
-    for ax in axs: ax.autoscale_view(); y_lims_original.append(ax.get_ylim())
+    # ── 1. LEVERS ─────────────────────────────────────────────────────────
+    axs[0].plot(df['t'], df['gLever'],  label='gLever')
+    axs[0].plot(df['t'], df['betaLever'], label='betaLever')
+    axs[0].plot(df['t'], df['FEcrit'],   label='FEcrit')
+    axs[0].set_title('System Levers Over Time')
+    axs[0].legend(); axs[0].grid(True, ls=':')
 
-    for ax_idx in range(axs.shape[0]):
-        current_ax = axs[ax_idx]; current_ax.set_ylim(y_lims_original[ax_idx]) 
-        plot_ymin, plot_ymax = current_ax.get_ylim()
-        if plot_ymin >= plot_ymax: 
-             plot_ymin_abs = abs(plot_ymin) if plot_ymin != 0 else 0.1
-             plot_ymax_abs = abs(plot_ymax) if plot_ymax != 0 else 0.1
-             plot_ymin = plot_ymin - 0.1 * plot_ymin_abs; plot_ymax = plot_ymax + 0.1 * plot_ymax_abs
-             if plot_ymin >= plot_ymax: plot_ymin, plot_ymax = plot_ymax - 1e-3 , plot_ymin + 1e-3 
-        for phase_val, color in phase_colors.items():
-            if phase_val == -1 and not (df['current_phase_est_numeric'] == -1).any(): continue
-            current_ax.fill_between(df['t'], plot_ymin, plot_ymax, where=(df['current_phase_est_numeric'] == phase_val), color=color, alpha=0.35, interpolate=True, step='post')
-        current_ax.set_ylim(y_lims_original[ax_idx]) 
-        if current_ax.get_ylim()[0] >= current_ax.get_ylim()[1]: current_ax.set_ylim(plot_ymin, plot_ymax)
+    # ── 2. STRAIN vs TOLERANCE ───────────────────────────────────────────
+    axs[1].plot(df['t'], df['avg_delta_P_tau'], label='Strain')
+    axs[1].plot(df['t'], df['ThetaT'],           label='ThetaT', ls='--')
+    ymax = axs[1].get_ylim()[1]
+    axs[1].plot(df['t'], df['is_collapsed']*ymax*0.95,
+                label='Collapsed', ls=':', drawstyle='steps-post')
+    axs[1].set_title('System Strain vs. Tolerance')
+    axs[1].legend(); axs[1].grid(True, ls=':')
 
-    axs[0].plot(df['t'], df['gLever'], label='gLever',c='b',lw=1.5); axs[0].plot(df['t'],df['betaLever'],label='betaLever',c='g',lw=1.5); axs[0].plot(df['t'],df['FEcrit'],label='FEcrit',c='purple',lw=1.5)
-    axs[0].set_ylabel('Lever Values'); axs[0].legend(loc='best'); axs[0].set_title('System Levers Over Time'); axs[0].grid(True,ls=':',alpha=0.6)
-    axs[1].plot(df['t'],df['avg_delta_P_tau'],label='Strain (avg_delta_P_tau)',c='r',lw=1.5); axs[1].plot(df['t'],df['ThetaT'],label='Tolerance (ThetaT)',c='k',ls='--',lw=1.5)
-    collapse_marker_y = df['avg_delta_P_tau'].max() if not df['avg_delta_P_tau'].empty and df['avg_delta_P_tau'].max()>0 else 1.0
-    axs[1].plot(df['t'],df['is_collapsed']*collapse_marker_y*0.95,label='Collapsed State',c='dimgray',ls=':',drawstyle='steps-post',lw=1.5)
-    axs[1].set_ylabel('Strain / Tolerance'); axs[1].legend(loc='best'); axs[1].set_title('System Strain vs. Tolerance'); axs[1].grid(True,ls=':',alpha=0.6)
-    ax3_twin = axs[2].twinx(); axs[2].plot(df['t'],df['SpeedIndex'],label='SpeedIndex',c='m',lw=1.5); ax3_twin.plot(df['t'],df['CoupleIndex'],label='CoupleIndex',c='darkcyan',alpha=0.85,lw=1.5)
-    axs[2].set_ylabel('SpeedIndex',color='m'); ax3_twin.set_ylabel('CoupleIndex',color='darkcyan'); axs[2].tick_params(axis='y',labelcolor='m'); ax3_twin.tick_params(axis='y',labelcolor='darkcyan')
-    speed_max_val = df['SpeedIndex'].max() if not df['SpeedIndex'].empty else 0; axs[2].set_ylim(bottom=(-0.05*speed_max_val) if speed_max_val > 0 else -0.1) 
-
-    # --- replace the three-in-one line that raises the error ---
-    ax3_twin.set_ylim(-1.1, 1.1)
-
+    # ── 3. DIAGNOSTICS ───────────────────────────────────────────────────
+    ax3_t = axs[2].twinx()
+    axs[2].plot(df['t'], df['SpeedIndex'],  label='SpeedIndex',  color='m')
+    ax3_t.plot(df['t'], df['CoupleIndex'], label='CoupleIndex', color='darkcyan')
+    axs[2].set_ylabel('SpeedIndex'); ax3_t.set_ylabel('CoupleIndex')
+    axs[2].grid(True, ls=':'); axs[2].set_title('Speed & Couple Indices')
     lines1, labels1 = axs[2].get_legend_handles_labels()
-    lines2, labels2 = ax3_twin.get_legend_handles_labels()
+    lines2, labels2 = ax3_t.get_legend_handles_labels()
+    axs[2].legend(lines1+lines2, labels1+labels2)
 
-    handles = lines1 + lines2        # all Line2D objects
-    labels  = labels1 + labels2      # their corresponding strings
-    axs[2].legend(handles, labels, loc='best')   # ← pass BOTH lists
-    
-    axs[2].set_title('Speed and Couple Indices'); axs[2].grid(True,ls=':',alpha=0.6)
-    axs[3].plot(df['t'],df['rhoE'],label='rhoE',c='saddlebrown',lw=1.5); axs[3].axhline(1.0,c='dimgray',ls='--',label='rhoE Baseline (1.0)',lw=1.2)
-    axs[3].set_ylabel('rhoE'); axs[3].set_xlabel('Time (t)'); axs[3].legend(loc='best'); axs[3].set_title('Exploration Entropy Excess (rhoE)'); axs[3].grid(True,ls=':',alpha=0.6)
-    valid_phase_labels = {k:v for k,v in phase_labels.items() if (k==-1 and (df['current_phase_est_numeric']==-1).any()) or k!=-1}
-    legend_elements = [Line2D([0],[0],color=phase_colors[k],lw=5,label=label,alpha=0.4) for k,label in valid_phase_labels.items()]
-    fig.legend(handles=legend_elements,loc='lower center',ncol=min(3,len(legend_elements)),bbox_to_anchor=(0.5,0.005))
-    plt.tight_layout(rect=[0,0.07,1,0.96]); fig_title = "Phoenix Loop ABM Sim: "+title_suffix if title_suffix else "Phoenix Loop ABM Sim"
-    plt.suptitle(fig_title,fontsize=18,y=0.98); plt.show()
+    # ── 4. rhoE ───────────────────────────────────────────────────────────
+    axs[3].plot(df['t'], df['rhoE'], label='rhoE', color='saddlebrown')
+    axs[3].axhline(1.0, ls='--', color='gray', label='baseline')
+    axs[3].set_title('Exploration Entropy Excess')
+    axs[3].legend(); axs[3].grid(True, ls=':')
+
+    # ── Shade the phase bands (do this LAST) ─────────────────────────────
+    for ax in axs:
+        _add_phase_bands(ax, df, phase_colors)
+
+    plt.tight_layout(); plt.show()
+
 
 def robust_plot_diagnostic_trajectories(df, title_suffix=""): # From previous, seems robust enough
     if df.empty or len(df) < 5: print(f"DataFrame for '{title_suffix}' is too short for trajectory plots."); return

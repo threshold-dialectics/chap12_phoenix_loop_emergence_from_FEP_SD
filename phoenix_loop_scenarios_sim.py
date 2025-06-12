@@ -374,108 +374,74 @@ DEFAULT_PARAMS_MULTI = {
     'strain_profile_func': shock_strain_profile, 
     'strain_baseline': 2.0, 
 }
+def _add_phase_bands(ax, df, phase_colors):
+    ymin, ymax = ax.get_ylim()                  # limits *after* data are drawn
+    for phase_val, colour in phase_colors.items():
+        if phase_val == -1 and not (df['current_phase_est_numeric'] == -1).any():
+            continue
+        ax.fill_between(df['t'], ymin, ymax,
+                        where=df['current_phase_est_numeric'] == phase_val,
+                        step='post', color=colour, alpha=0.35, zorder=-10)
 
-# --- Plotting Functions (Reused from previous response, with minor robust_plot_simulation_results improvements) ---
 def robust_plot_simulation_results(df, params, title_suffix=""):
-    if df.empty or len(df) < 2: # Need at least 2 points for some plot features
-        print(f"DataFrame for '{title_suffix}' is too short or empty. Skipping detailed time series plots.")
-        # Optionally plot a message or a very basic plot
-        fig, ax = plt.subplots(1,1, figsize=(10,3))
-        ax.text(0.5, 0.5, f"No sufficient data to plot for: {title_suffix}", ha='center', va='center')
-        ax.set_title("Phoenix Loop Simulation: " + title_suffix if title_suffix else "Phoenix Loop Simulation")
-        save_path = os.path.join("results", f"sim_basic_{title_suffix}_time_series.png")
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        plt.close()
-        return
+    if df.empty or len(df) < 2:
+        print(f"No data for '{title_suffix}'; skipping plot."); return
 
+    # The function creates a figure object named 'fig' here
     fig, axs = plt.subplots(4, 1, figsize=(16, 20), sharex=True)
-    phase_colors = {0: 'lightgray', 1: 'salmon', 2: 'moccasin', 3: 'lightgreen', 4: 'lightblue', -1: 'white'}
-    phase_labels = {0: 'Pre-Collapse', 1: 'Disintegration', 2: 'Flaring', 3: 'Pruning', 4: 'Restabilization', -1: 'Unknown'}
+    phase_colors = {0:'lightgray',1:'salmon',2:'moccasin',3:'lightgreen',4:'lightblue',-1:'white'}
 
-    y_lims_original = []
-    for ax in axs:
-        ax.autoscale_view() 
-        y_lims_original.append(ax.get_ylim())
+    # 1 ── Levers -----------------------------------------------------------
+    axs[0].plot(df['t'], df['gLever'],  label='gLever')
+    axs[0].plot(df['t'], df['betaLever'], label='betaLever')
+    axs[0].plot(df['t'], df['FEcrit'],   label='FEcrit')
+    axs[0].set_title('System Levers Over Time'); axs[0].legend(); axs[0].grid(True, ls=':')
 
-    for ax_idx in range(axs.shape[0]):
-        current_ax = axs[ax_idx]
-        current_ax.set_ylim(y_lims_original[ax_idx]) 
-        
-        plot_ymin, plot_ymax = current_ax.get_ylim()
-        if plot_ymin >= plot_ymax: # Ensure ymin < ymax, handle flat data
-             plot_ymin_abs = abs(plot_ymin) if plot_ymin != 0 else 0.1
-             plot_ymax_abs = abs(plot_ymax) if plot_ymax != 0 else 0.1
-             plot_ymin = plot_ymin - 0.1 * plot_ymin_abs
-             plot_ymax = plot_ymax + 0.1 * plot_ymax_abs
-             if plot_ymin >= plot_ymax: plot_ymin, plot_ymax = plot_ymax - 1e-3 , plot_ymin + 1e-3 # Final fallback
+    # 2 ── Strain vs. tolerance -------------------------------------------
+    axs[1].plot(df['t'], df['avg_delta_P_tau'], label='Strain')
+    axs[1].plot(df['t'], df['ThetaT'],           label='ThetaT', ls='--')
+    # Use try-except to handle potential empty ylim issue if plots are empty
+    try:
+        ymax = axs[1].get_ylim()[1]
+        axs[1].plot(df['t'], df['is_collapsed']*ymax*0.95,
+                    label='Collapsed', ls=':', drawstyle='steps-post')
+    except IndexError:
+        pass # Skip plotting the collapse line if ylim is not set
+    axs[1].set_title('System Strain vs. Tolerance'); axs[1].legend(); axs[1].grid(True, ls=':')
 
-        for phase_val, color in phase_colors.items():
-            if phase_val == -1 and not (df['current_phase_est_numeric'] == -1).any():
-                continue
-            current_ax.fill_between(df['t'], plot_ymin, plot_ymax,
-                                     where=(df['current_phase_est_numeric'] == phase_val),
-                                     color=color, alpha=0.35, interpolate=True, step='post')
-        current_ax.set_ylim(y_lims_original[ax_idx]) # Re-apply original or slightly adjusted if flat
-        if current_ax.get_ylim()[0] >= current_ax.get_ylim()[1]: # Check again after fill
-            current_ax.set_ylim(plot_ymin, plot_ymax)
-
-
-    # Plot 1: Levers
-    axs[0].plot(df['t'], df['gLever'], label='gLever', color='blue', linewidth=1.5)
-    axs[0].plot(df['t'], df['betaLever'], label='betaLever', color='green', linewidth=1.5)
-    axs[0].plot(df['t'], df['FEcrit'], label='FEcrit', color='purple', linewidth=1.5)
-    axs[0].set_ylabel('Lever Values')
-    axs[0].legend(loc='best'); axs[0].set_title('System Levers Over Time')
-    axs[0].grid(True, linestyle=':', alpha=0.6)
-
-    # Plot 2: Strain vs. Tolerance
-    axs[1].plot(df['t'], df['avg_delta_P_tau'], label='Strain (avg_delta_P_tau)', color='red', linewidth=1.5)
-    axs[1].plot(df['t'], df['ThetaT'], label='Tolerance (ThetaT)', color='black', linestyle='--', linewidth=1.5)
-    collapse_marker_y = df['avg_delta_P_tau'].max() if not df['avg_delta_P_tau'].empty and df['avg_delta_P_tau'].max() > 0 else 1.0
-    axs[1].plot(df['t'], df['is_collapsed'] * collapse_marker_y * 0.95,
-                label='Collapsed State', color='dimgray', linestyle=':', drawstyle='steps-post', linewidth=1.5)
-    axs[1].set_ylabel('Strain / Tolerance'); axs[1].legend(loc='best'); axs[1].set_title('System Strain vs. Tolerance')
-    axs[1].grid(True, linestyle=':', alpha=0.6)
-
-    # Plot 3: Core Diagnostics (Speed, Couple)
-    ax3_twin = axs[2].twinx()
-    axs[2].plot(df['t'], df['SpeedIndex'], label='SpeedIndex', color='magenta', linewidth=1.5)
-    ax3_twin.plot(df['t'], df['CoupleIndex'], label='CoupleIndex', color='darkcyan', alpha=0.85, linewidth=1.5)
-    axs[2].set_ylabel('SpeedIndex', color='magenta'); ax3_twin.set_ylabel('CoupleIndex', color='darkcyan')
-    axs[2].tick_params(axis='y', labelcolor='magenta'); ax3_twin.tick_params(axis='y', labelcolor='darkcyan')
-    # Ensure SpeedIndex y_lim bottom is not negative, or slightly below 0 if max is 0
-    speed_max_val = df['SpeedIndex'].max() if not df['SpeedIndex'].empty else 0
-    axs[2].set_ylim(bottom= (-0.05 * speed_max_val) if speed_max_val > 0 else -0.1) 
-    ax3_twin.set_ylim(-1.1, 1.1) 
-    # --- after plotting SpeedIndex and CoupleIndex ---
+    # 3 ── Diagnostics -----------------------------------------------------
+    ax3_t = axs[2].twinx()
+    axs[2].plot(df['t'], df['SpeedIndex'],  label='SpeedIndex',  color='m')
+    ax3_t.plot(df['t'], df['CoupleIndex'], label='CoupleIndex', color='darkcyan')
+    axs[2].set_ylabel('SpeedIndex'); ax3_t.set_ylabel('CoupleIndex')
+    axs[2].grid(True, ls=':'); axs[2].set_title('Speed & Couple Indices')
     lines1, labels1 = axs[2].get_legend_handles_labels()
-    lines2, labels2 = ax3_twin.get_legend_handles_labels()
+    lines2, labels2 = ax3_t.get_legend_handles_labels()
+    axs[2].legend(lines1+lines2, labels1+labels2)
 
-    # OLD (raises TypeError in Matplotlib ≥3.9)
-    # axs[2].legend(lines1 + lines2, loc='best')
+    # 4 ── rhoE ------------------------------------------------------------
+    axs[3].plot(df['t'], df['rhoE'], label='rhoE', color='saddlebrown')
+    axs[3].axhline(1.0, ls='--', color='gray', label='baseline')
+    axs[3].set_title('Exploration Entropy Excess'); axs[3].legend(); axs[3].grid(True, ls=':')
 
-    # NEW – supply the *labels* as well (or use keyword args)
-    axs[2].legend(lines1 + lines2, labels1 + labels2, loc='best')
-    axs[2].grid(True, linestyle=':', alpha=0.6)
+    # ------ add background bands (do it last so autoscaling is finished) --
+    for ax in axs:
+        _add_phase_bands(ax, df, phase_colors)
 
-    # Plot 4: Exploration Diagnostics (rhoE)
-    axs[3].plot(df['t'], df['rhoE'], label='rhoE', color='saddlebrown', linewidth=1.5)
-    axs[3].axhline(1.0, color='dimgray', linestyle='--', label='rhoE Baseline (1.0)', linewidth=1.2)
-    axs[3].set_ylabel('rhoE'); axs[3].set_xlabel('Time (t)'); axs[3].legend(loc='best')
-    axs[3].set_title('Exploration Entropy Excess (rhoE)')
-    axs[3].grid(True, linestyle=':', alpha=0.6)
+    # --- CORRECTED SECTION: SAVE THE FIGURE ---
+    plt.tight_layout()
     
-    valid_phase_labels = {k: v for k, v in phase_labels.items() if (k == -1 and (df['current_phase_est_numeric'] == -1).any()) or k != -1}
-    legend_elements = [Line2D([0], [0], color=phase_colors[k], lw=5, label=label, alpha=0.4) 
-                       for k, label in valid_phase_labels.items()]
-    fig.legend(handles=legend_elements, loc='lower center', ncol=min(3, len(legend_elements)), bbox_to_anchor=(0.5, 0.005))
+    # Add a title to the whole figure
+    fig_title = "System Dynamics Time Series: " + title_suffix if title_suffix else "System Dynamics Time Series"
+    fig.suptitle(fig_title, fontsize=18, y=0.99) # Use fig.suptitle for figure-level title
+    plt.subplots_adjust(top=0.96) # Adjust layout to make room for the title
 
-    plt.tight_layout(rect=[0, 0.07, 1, 0.96])
-    fig_title = "Phoenix Loop Simulation: " + title_suffix if title_suffix else "Phoenix Loop Simulation"
-    plt.suptitle(fig_title, fontsize=18, y=0.98)
+    # Construct the save path and save the figure
     save_path = os.path.join("results", f"sim_{title_suffix}_time_series.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    plt.close()
+    
+    # Close the figure to free up memory
+    plt.close(fig)
 
 def robust_plot_diagnostic_trajectories(df, title_suffix=""):
     if df.empty or len(df) < 5: # Need a few points for trajectories
