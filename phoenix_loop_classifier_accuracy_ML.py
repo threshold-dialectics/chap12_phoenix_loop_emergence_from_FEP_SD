@@ -10,7 +10,13 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
-import joblib # For saving the model
+import joblib  # For saving the model
+
+FONT_SCALE = 2
+plt.rcParams.update({
+    'font.size': plt.rcParams.get('font.size', 10) * FONT_SCALE,
+    'savefig.dpi': 350
+})
 
 # --- Configuration Parameters ---
 # These serve as local defaults if no external config is imported,

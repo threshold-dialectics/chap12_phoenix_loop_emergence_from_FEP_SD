@@ -2,9 +2,15 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D # For custom legends
-import mpl_toolkits.mplot3d # For 3D plots
+from matplotlib.lines import Line2D  # For custom legends
+import mpl_toolkits.mplot3d  # For 3D plots
 import matplotlib as mpl
+
+FONT_SCALE = 2  # Double all text sizes in plots
+plt.rcParams.update({
+    'font.size': plt.rcParams.get('font.size', 10) * FONT_SCALE,
+    'savefig.dpi': 350
+})
 import os
 import json
 import sys
@@ -433,12 +439,12 @@ def robust_plot_simulation_results(df, params, title_suffix=""):
     
     # Add a title to the whole figure
     fig_title = "System Dynamics Time Series: " + title_suffix if title_suffix else "System Dynamics Time Series"
-    fig.suptitle(fig_title, fontsize=18, y=0.99) # Use fig.suptitle for figure-level title
+    fig.suptitle(fig_title, fontsize=36, y=1.02)  # Use fig.suptitle for figure-level title
     plt.subplots_adjust(top=0.96) # Adjust layout to make room for the title
 
     # Construct the save path and save the figure
     save_path = os.path.join("results", f"sim_{title_suffix}_time_series.png")
-    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.savefig(save_path, dpi=350, bbox_inches='tight')
     
     # Close the figure to free up memory
     plt.close(fig)
@@ -479,16 +485,16 @@ def robust_plot_diagnostic_trajectories(df, title_suffix=""):
 
 
     sc = ax_2d.scatter(df['SpeedIndex'], df['CoupleIndex'], c=rhoE_capped_for_color, cmap='viridis', s=20, alpha=0.65, vmin=0, vmax=max(1.0, rhoE_cap_val)) # Ensure vmax is at least 1
-    ax_2d.set_xlabel('SpeedIndex', fontsize=12); ax_2d.set_ylabel('CoupleIndex', fontsize=12)
-    ax_2d.set_title('Trajectory in (SpeedIndex, CoupleIndex) Plane\nColor-coded by rhoE (capped)', fontsize=14)
+    ax_2d.set_xlabel('SpeedIndex', fontsize=24); ax_2d.set_ylabel('CoupleIndex', fontsize=24)
+    ax_2d.set_title('Trajectory (SpeedIndex, CoupleIndex)', fontsize=26)
     ax_2d.set_xlim(left=xlim_left) 
     ax_2d.set_ylim(-1.15, 1.15); cbar = plt.colorbar(sc, ax=ax_2d, aspect=30)
-    cbar.set_label('rhoE (capped)', fontsize=12); ax_2d.grid(True, linestyle=':', alpha=0.7)
+    cbar.set_label('rhoE (capped)', fontsize=24); ax_2d.grid(True, linestyle=':', alpha=0.7)
     
     ax_2d.plot(df['SpeedIndex'].iloc[0], df['CoupleIndex'].iloc[0], 'o', color='lime', markersize=10, label='Start', markeredgecolor='black', zorder=5)
     ax_2d.plot(df['SpeedIndex'].iloc[-1], df['CoupleIndex'].iloc[-1], 'X', color='red', markersize=10, label='End', markeredgecolor='black', zorder=5)
     ax_2d.plot(df['SpeedIndex'], df['CoupleIndex'], color='dimgray', linestyle='-', linewidth=0.8, alpha=0.5, zorder=4) 
-    ax_2d.legend(fontsize=10)
+    ax_2d.legend(fontsize=20)
 
     # 3D Plot
     ax_3d = fig_traj.add_subplot(1, 2, 2, projection='3d')
@@ -496,13 +502,16 @@ def robust_plot_diagnostic_trajectories(df, title_suffix=""):
     
     sc_3d = ax_3d.scatter(df['SpeedIndex'], df['CoupleIndex'], rhoE_plot_3d_capped, 
                           c=df['t'], cmap='plasma', s=20, alpha=0.65) 
-    ax_3d.set_xlabel('SpeedIndex', fontsize=12); ax_3d.set_ylabel('CoupleIndex', fontsize=12)
-    ax_3d.set_zlabel('rhoE (capped)', fontsize=12)
-    ax_3d.set_title('Trajectory in (Speed, Couple, rhoE) Space\nColor-coded by Time', fontsize=14)
+    ax_3d.set_xlabel('SpeedIndex', fontsize=16); ax_3d.set_ylabel('CoupleIndex', fontsize=16)
+    ax_3d.set_zlabel('rhoE (capped)', fontsize=16)
+    ax_3d.set_title('Trajectory (Speed, Couple, rhoE)', fontsize=26)
+    ax_3d.tick_params(axis='both', which='major', labelsize=12)
+    ax_3d.zaxis.set_tick_params(labelsize=12)
+
     ax_3d.set_zlim(0, max(1.0, rhoE_cap_val * 1.05)) # Ensure zlim is reasonable
 
     cbar_3d = plt.colorbar(sc_3d, ax=ax_3d, pad=0.12, fraction=0.03, aspect=30) 
-    cbar_3d.set_label('Time (t)', fontsize=12)
+    cbar_3d.set_label('Time (t)', fontsize=24)
     
     ax_3d.plot([df['SpeedIndex'].iloc[0]], [df['CoupleIndex'].iloc[0]], [rhoE_plot_3d_capped.iloc[0]],
                'o', color='lime', markersize=10, label='Start', markeredgecolor='black', zorder=10)
@@ -510,14 +519,14 @@ def robust_plot_diagnostic_trajectories(df, title_suffix=""):
                'X', color='red', markersize=10, label='End', markeredgecolor='black', zorder=10)
     ax_3d.plot(df['SpeedIndex'], df['CoupleIndex'], rhoE_plot_3d_capped, 
                color='dimgray', linestyle='-', linewidth=0.8, alpha=0.5, zorder=1) 
-    ax_3d.legend(loc='upper left', bbox_to_anchor=(0.02,0.98), fontsize=10) 
+    ax_3d.legend(loc='upper left', bbox_to_anchor=(0.02,0.98), fontsize=20)
 
     plt.tight_layout(rect=[0,0,1,0.94]) 
     fig_traj_title = "Diagnostic Trajectories: " + title_suffix if title_suffix else "Diagnostic Trajectories"
-    plt.suptitle(fig_traj_title, fontsize=18, y=0.97) 
+    plt.suptitle(fig_traj_title, fontsize=36, y=0.97)
 
     save_path = os.path.join("results", f"sim_{title_suffix}_trajectory.png")
-    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.savefig(save_path, dpi=350, bbox_inches='tight')
     plt.close()
 
 def compute_simulation_summary(df, simulator, scenario_name):

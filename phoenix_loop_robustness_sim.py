@@ -3,10 +3,16 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-import mpl_toolkits.mplot3d # For 3D plots
+import mpl_toolkits.mplot3d  # For 3D plots
 from collections import Counter
 from scipy.stats import entropy as shannon_entropy # Renamed to avoid conflict
-from phoenix_loop_scenarios_sim import DEFAULT_PARAMS_MULTI 
+from phoenix_loop_scenarios_sim import DEFAULT_PARAMS_MULTI
+
+FONT_SCALE = 2
+plt.rcParams.update({
+    'font.size': plt.rcParams.get('font.size', 10) * FONT_SCALE,
+    'savefig.dpi': 350
+})
 # --- Agent and ABM System ---
 class SimpleAgent:
     def __init__(self, agent_id, num_activity_levels, initial_activity_state=None):
@@ -376,19 +382,19 @@ def robust_plot_diagnostic_trajectories(df, title_suffix=""): # From previous, s
     rhoE_capped_for_color=np.clip(rhoE_plot.fillna(0),0,rhoE_cap_val); speed_max_val_plot=df['SpeedIndex'].max() if not df['SpeedIndex'].empty else 0
     xlim_left=(-0.1*speed_max_val_plot) if speed_max_val_plot>0 else -0.1
     sc=ax_2d.scatter(df['SpeedIndex'],df['CoupleIndex'],c=rhoE_capped_for_color,cmap='viridis',s=20,alpha=0.65,vmin=0,vmax=max(1.0,rhoE_cap_val))
-    ax_2d.set_xlabel('SpeedIndex',fontsize=12); ax_2d.set_ylabel('CoupleIndex',fontsize=12); ax_2d.set_title('Trajectory in (SpeedIndex, CoupleIndex) Plane\nColor-coded by rhoE (capped)',fontsize=14)
-    ax_2d.set_xlim(left=xlim_left); ax_2d.set_ylim(-1.15,1.15); cbar=plt.colorbar(sc,ax=ax_2d,aspect=30); cbar.set_label('rhoE (capped)',fontsize=12); ax_2d.grid(True,ls=':',alpha=0.7)
+    ax_2d.set_xlabel('SpeedIndex', fontsize=24); ax_2d.set_ylabel('CoupleIndex', fontsize=24); ax_2d.set_title('Trajectory in (SpeedIndex, CoupleIndex) Plane\nColor-coded by rhoE (capped)', fontsize=28)
+    ax_2d.set_xlim(left=xlim_left); ax_2d.set_ylim(-1.15,1.15); cbar=plt.colorbar(sc, ax=ax_2d, aspect=30); cbar.set_label('rhoE (capped)', fontsize=24); ax_2d.grid(True, ls=':', alpha=0.7)
     ax_2d.plot(df['SpeedIndex'].iloc[0],df['CoupleIndex'].iloc[0],'o',color='lime',ms=10,label='Start',mec='k',zorder=5); ax_2d.plot(df['SpeedIndex'].iloc[-1],df['CoupleIndex'].iloc[-1],'X',color='r',ms=10,label='End',mec='k',zorder=5)
-    ax_2d.plot(df['SpeedIndex'],df['CoupleIndex'],color='dimgray',ls='-',lw=0.8,alpha=0.5,zorder=4); ax_2d.legend(fontsize=10)
+    ax_2d.plot(df['SpeedIndex'], df['CoupleIndex'], color='dimgray', ls='-', lw=0.8, alpha=0.5, zorder=4); ax_2d.legend(fontsize=20)
     ax_3d=fig_traj.add_subplot(1,2,2,projection='3d'); rhoE_plot_3d_capped=np.clip(df['rhoE'].fillna(0),0,rhoE_cap_val)
     sc_3d=ax_3d.scatter(df['SpeedIndex'],df['CoupleIndex'],rhoE_plot_3d_capped,c=df['t'],cmap='plasma',s=20,alpha=0.65)
-    ax_3d.set_xlabel('SpeedIndex',fontsize=12); ax_3d.set_ylabel('CoupleIndex',fontsize=12); ax_3d.set_zlabel('rhoE (capped)',fontsize=12)
-    ax_3d.set_title('Trajectory in (Speed, Couple, rhoE) Space\nColor-coded by Time',fontsize=14); ax_3d.set_zlim(0,max(1.0,rhoE_cap_val*1.05))
-    cbar_3d=plt.colorbar(sc_3d,ax=ax_3d,pad=0.12,fraction=0.03,aspect=30); cbar_3d.set_label('Time (t)',fontsize=12)
+    ax_3d.set_xlabel('SpeedIndex', fontsize=24); ax_3d.set_ylabel('CoupleIndex', fontsize=24); ax_3d.set_zlabel('rhoE (capped)', fontsize=24)
+    ax_3d.set_title('Trajectory in (Speed, Couple, rhoE) Space\nColor-coded by Time', fontsize=28); ax_3d.set_zlim(0, max(1.0, rhoE_cap_val * 1.05))
+    cbar_3d = plt.colorbar(sc_3d, ax=ax_3d, pad=0.12, fraction=0.03, aspect=30); cbar_3d.set_label('Time (t)', fontsize=24)
     ax_3d.plot([df['SpeedIndex'].iloc[0]],[df['CoupleIndex'].iloc[0]],[rhoE_plot_3d_capped.iloc[0]],'o',color='lime',ms=10,label='Start',mec='k',zorder=10)
     ax_3d.plot([df['SpeedIndex'].iloc[-1]],[df['CoupleIndex'].iloc[-1]],[rhoE_plot_3d_capped.iloc[-1]],'X',color='r',ms=10,label='End',mec='k',zorder=10)
-    ax_3d.plot(df['SpeedIndex'],df['CoupleIndex'],rhoE_plot_3d_capped,color='dimgray',ls='-',lw=0.8,alpha=0.5,zorder=1); ax_3d.legend(loc='upper left',bbox_to_anchor=(0.02,0.98),fontsize=10)
-    plt.tight_layout(rect=[0,0,1,0.94]); fig_traj_title="Diagnostic Trajectories: "+title_suffix if title_suffix else "Diagnostic Trajectories"; plt.suptitle(fig_traj_title,fontsize=18,y=0.97); plt.show()
+    ax_3d.plot(df['SpeedIndex'], df['CoupleIndex'], rhoE_plot_3d_capped, color='dimgray', ls='-', lw=0.8, alpha=0.5, zorder=1); ax_3d.legend(loc='upper left', bbox_to_anchor=(0.02,0.98), fontsize=20)
+    plt.tight_layout(rect=[0,0,1,0.94]); fig_traj_title="Diagnostic Trajectories: "+title_suffix if title_suffix else "Diagnostic Trajectories"; plt.suptitle(fig_traj_title, fontsize=36, y=0.97); plt.show()
 
 
 # --- Main Simulation Execution ---
